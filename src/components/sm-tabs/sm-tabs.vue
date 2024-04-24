@@ -1,25 +1,28 @@
 <template>
-  <slot name="add"></slot>
-  <div
-      v-for="(tab, index) in tabs"
-      :key="tab.toString() + index"
-      :class="['sm-tabs-tab', { _active: localCurrentTab === tab }]"
-  >
-
-    <button
-      :class="['sm-tabs-button']"
-      v-on:click="localCurrentTab = tab.toString()"
+  <div class="sm-tabs">
+    <slot name="add"></slot>
+    <div
+        v-for="(tab, index) in tabs"
+        :key="tab.toString() + index"
+        :class="['sm-tabs-tab', { _active: localCurrentTab === tab }]"
     >
-      {{ tab }}
-    </button>
-    <slot name="del" :index="index" :tab="localCurrentTab"></slot>
+
+      <button
+        :class="['sm-tabs-button']"
+        v-on:click="localCurrentTab = tab.toString()"
+      >
+        {{ tab }}
+      </button>
+      <slot name="del" :index="index" :tab="localCurrentTab"></slot>
+    </div>
   </div>
-  <slot
-    nameClass="sm-tabs-content"
-    :tab="localCurrentTab"
-  > 
-  {{ localCurrentTab }}
-  </slot>
+    <slot
+      nameClass="sm-tabs-content"
+      :tab="localCurrentTab"
+    > 
+    {{ localCurrentTab }}
+    </slot>
+
 </template>
 
 <script>
@@ -63,6 +66,9 @@ export default {
 </script>
 
 <style>
+.sm-tabs{
+  display: flex;
+}
 .sm-tabs-tab {
   display: inline-block;
   border-top-left-radius: 3px;

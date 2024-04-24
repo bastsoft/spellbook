@@ -66,9 +66,13 @@ export default {
           type: String,
           default: '',
       },
+      storybookUrl:{
+        type: String,
+        default: "",
+      }
   },
   data:()=>({
-    storyUrl: "https://mexico.mcc.mk-dev.ru/",
+    storyUrl: "",
     storyTestId: "components-test--default",
     isInit: false,
     code:{},
@@ -88,6 +92,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.storyUrl = this.storybookUrl;
   },
   methods:{
       onOpen() {
