@@ -78,13 +78,7 @@
                 v-model="selectedElement.args[key]"
                 :list="'argTypes' + key"
               />
-              <button
-                @click="
-                  () => {
-                    delete selectedElement.args[key]
-                  }
-                "
-              >
+              <button @click="onDeleteArg(key)">
                 x
               </button>
               <input type="checkbox" :value="key" v-model="selectedElement.argsBinded" />
@@ -215,6 +209,11 @@ export default {
       return Object.keys((this.selectedElement || {}).args || {}).filter((i) => i.includes(this.argTypeValue));
     },
   },
+  watch: {
+    selectedElement() {
+      this.argTypeValue = "";
+    }
+  },
   methods: {
     unSelect() {
       this.index = null
@@ -229,7 +228,12 @@ export default {
       this.index = null;
     },
     onAddArg() {
-      this.selectedElement.args[this.argTypeValue] = ''
+      this.selectedElement.args[this.argTypeValue] = '';
+      this.$emit("change");
+    },
+    onDeleteArg(key) {
+      delete this.selectedElement.args[key];
+      this.$emit("change");
     },
     onAddSlot(){
       this.selectedElement.slots[this.slotTypeValue] = {
@@ -243,6 +247,8 @@ export default {
 
 <style>
 .sm-bar-prop {
+  display: flex;
+  flex-direction: column;
   width: 300px;
   padding: 5px;
   border: 1px solid black;

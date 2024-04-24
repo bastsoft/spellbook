@@ -25,12 +25,22 @@ export default {
 
 export const Default = {
   tmpl: `
-  <SpellCast @keydown.stop v-model="state.code">
+  <SpellCast 
+  style="margin: 0 20px;"
+  :modelValue="state.code"
+  @keydown.stop
+  @drop.stop
+  @update:model-value="action('onUpdateCode')"
+  storybookUrl="http://localhost:6006/"
+  >
     <IconWizard/>
   </SpellCast>
   {{state}}
   `,
   actions: {
-    mounted: function () {}
+    mounted: function () {},
+    onUpdateCode: function (ctx, payload) {
+      ctx.state.code = payload
+    }
   }
 }

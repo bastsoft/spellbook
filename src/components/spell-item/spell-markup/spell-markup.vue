@@ -22,11 +22,14 @@
             style="width:100%"
             v-model:selectedId="selectedId"
             :children="syntaxTree"
+            @drop.stop="onChange"
           />
           <SmBarProp
             v-if="subArrIndex !== null"
             v-model:subArr="subArr"
             v-model:subArrIndex="subArrIndex"
+            @keydown.stop="onChange"
+            @change="onChange"
             :argTypesExtra="argTypes"
           />
         </div>
@@ -125,6 +128,7 @@ export default {
       console.log("onAddTag : ", element);
       // subArrIndex: null, //добавление элементов
       this.subArr.push(element);
+      this.onStringify();
     },
     onBeautify(){
       this.tmplHtml = beautify.html(this.tmplHtml);
@@ -137,8 +141,12 @@ export default {
       this.subArr = this.syntaxTree;
       this.subArrIndex = null;
       this.selectedId = null;
-
     },
+    onChange(){
+      setTimeout(() => {
+        this.onStringify();
+      }, 100);
+    }
   }
 }
 </script>
