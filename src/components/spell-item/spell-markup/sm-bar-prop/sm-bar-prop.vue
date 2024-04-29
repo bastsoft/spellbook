@@ -97,7 +97,16 @@
         </div>
       </template>
     </SmTabs>
-    <textarea v-else v-model="selectedElement.args.content"  style="height: 80%; width: 100%;"></textarea>
+    <textarea  v-if="!selectedElement.tag" v-model="selectedElement.args.content"  style="height: 80%; width: 100%;"></textarea>
+    <label v-if="presets.length">
+      presets:
+      <select v-model="presetKey">
+        <option v-for="(value, index) in presets" :key="value.name + index">
+          {{ value.name }}
+        </option>
+      </select>
+      <button @click="onChange">+</button>
+    </label>
   </div>
 </template>
 
@@ -116,6 +125,7 @@ export default {
     IconDuplicate
   },
   data: () => ({
+    presetKey: null,
     argTypeValue: '',
     argTypesDefault: {
       class: {
@@ -161,7 +171,7 @@ export default {
       }
     },
     slotTypeValue: "",
-    slotTypes:{
+    slotTypesDefault:{
       "default": {
         "name": "default",
         "description": "The default Vue slot."
@@ -180,9 +190,20 @@ export default {
     argTypesExtra: {
       type: Object,
       default: () => {}
+    },
+    slotTypesExtra: {
+      type: Object,
+      default: () => {}
+    },
+    presets: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
+    slotTypes(){
+      return { ...this.slotTypesDefault, ...this.slotTypesExtra };
+    },
     argTypes() {
       return { ...this.argTypesDefault, ...this.argTypesExtra };
     },
@@ -240,6 +261,11 @@ export default {
         children: [],
         prop: ''
       }
+    },
+    onChange(){
+      const selectPreset = this.presets.find(i => i.name === this.presetKey);
+      
+      this.arr[this.index] = selectPreset.elem[0];
     }
   }
 }

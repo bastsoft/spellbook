@@ -1,4 +1,49 @@
 export default {
+  caseErrorSlot: {
+    tmpl: `<VBtn
+    :loading="loading"
+    @click="loading = !loading"
+  >
+  Custom loader
+
+  <template v-slot:loader>
+    <VProgressLinear indeterminate></VProgressLinear>
+  </template>
+</VBtn>`,
+    syntaxTree: [
+      {
+        args: {
+          '@click': 'loading = !loading',
+          loading: 'loading'
+        },
+        argsBinded: ['loading'],
+        slots: {
+          default: {
+            children: [
+              {
+                args: {
+                  content: 'Custom loader'
+                }
+              }
+            ]
+          },
+          loader: {
+            children: [
+              {
+                args: {
+                  indeterminate: ''
+                },
+                argsBinded: [],
+                slots: {},
+                tag: 'VProgressLinear'
+              }
+            ]
+          }
+        },
+        tag: 'VBtn'
+      }
+    ]
+  },
   caseOneLevel: {
     tmpl: `<VBtn @click="action('onClick')" text="Click me"></VBtn>`,
     syntaxTree: [

@@ -3,6 +3,8 @@
     v-model:tmpl="spell.tmpl" 
     @update:selectedElement="$emit('update:selectedElement', $event)"
     :argTypes="argTypes"
+    :slotTypes="slotTypes"
+    :presets="presets"
   >
     <template #toolbar="vbind">
       <slot 
@@ -36,6 +38,14 @@ export default {
     argTypes:{
       type: Object,
       default: () => ({})
+    },
+    slotTypes:{
+      type: Object,
+      default: () => ({})
+    },
+    presets: {
+      type: Array,
+      default: () => ([])
     }
   },
   computed: {
