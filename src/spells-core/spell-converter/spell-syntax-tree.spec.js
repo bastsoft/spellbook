@@ -69,3 +69,10 @@ describe('тэг с default и праметром', () => {
     expect(syntaxTree).toStrictEqual(matchObj.caseSlotDefaultWithParams.syntaxTree)
   })
 })
+
+describe('слот через v-slot', () => {
+  it('parse', () => {
+    const syntaxTree = spellSyntaxTree.parse(matchObj.caseErrorSlot.tmpl)
+    expect(syntaxTree).toStrictEqual(matchObj.caseErrorSlot.syntaxTree)
+  })
+})

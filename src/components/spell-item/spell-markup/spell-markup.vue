@@ -31,6 +31,8 @@
             @keydown.stop="onChange"
             @change="onChange"
             :argTypesExtra="argTypes"
+            :slotTypesExtra="slotTypes"
+            :presets="presets"
           />
         </div>
       </div>
@@ -63,6 +65,14 @@ export default {
       default: '' 
     },
     argTypes: {
+      type: Object,
+      default: ()=>({})
+    },
+    presets: {
+      type: Array,
+      default: ()=>([])
+    },
+    slotTypes:{
       type: Object,
       default: ()=>({})
     }

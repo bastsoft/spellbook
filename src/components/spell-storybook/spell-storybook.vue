@@ -4,7 +4,13 @@
     <input v-model="url"/>
   </label>
   <button @click="onLoad">load</button>
-  <SpellItem v-model="spell" @update:selectedElement="onSelectedElement" :argTypes="argTypes">
+  <SpellItem 
+    v-model="spell" 
+    @update:selectedElement="onSelectedElement" 
+    :argTypes="argTypes"
+    :slotTypes="slotTypes"
+    :presets="presets"
+  >
     <template #toolbar="{ onAddTag }">
       <StorybookTree 
         :children="(entriesTree || {}).children || {}" 
@@ -26,6 +32,7 @@
 import SpellItem from '../spell-item/spell-item.vue';
 import StorybookTree from './storybook-tree/storybook-tree.vue'
 import StorybookRemoute from '../../spells-core/storybook-remoute.js'
+import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree.js';
 
 let storybookRemoute = new StorybookRemoute()
 
@@ -50,8 +57,10 @@ export default {
     },
   },
   data: ()=>({
+    presets: [],
     entriesTree: {},
     argTypes: {},
+    slotTypes: {},
   }),
   computed: {
     testId:{
@@ -87,6 +96,7 @@ export default {
     },
     onSelectedElement(elem) {
       this.argTypes = {};
+      this.presets = [];
       let importPath = null;
 
       storybookRemoute.getOnlyStoryFromEntries().forEach((entry) => {
@@ -98,7 +108,35 @@ export default {
 
       if (importPath) {
         storybookRemoute.importFn(importPath).then((res) => {
+          const tag = res.default.title.split('/').pop();
           this.argTypes = res.default.argTypes;
+          this.slotTypes = (res.default.parameters || {}).slots;
+          const presetKeys = Object.keys(res).filter(i => !['default', '__namedExportsOrder'].includes(i));
+          this.presets = presetKeys.reduce((acc, key) => {
+          const args =   res[key].args || {};
+
+            const elem = {
+                tag,
+                argsBinded: [],
+                args,
+                slots: {}
+            };
+
+            if(res[key].render){
+              const renderObj = res[key].render(args);
+              const parseElemArr = spellSyntaxTree.parse(renderObj.template.replace('v-bind="args"', ""));
+              elem.args = {...parseElemArr[0].args, ...args};
+              elem.argsBinded = parseElemArr[0].argsBinded;
+              elem.slots = parseElemArr[0].slots;
+            }
+            
+            acc.push({
+              name: key,
+              elem: [elem]
+            });
+
+            return acc;
+          }, []);
         });
       }
     },

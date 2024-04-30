@@ -60,12 +60,15 @@ export default {
     onSelect(value){
       this.$emit('select', value);
       const tag = value.title.split('/').pop();
-      this.$emit("add", {
+
+      const elem = {
           tag,
           argsBinded: [],
           args: {},
           slots: {}
-      });
+      };
+
+      this.$emit("add", elem);
     }
   }
 }

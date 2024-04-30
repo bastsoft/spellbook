@@ -260,7 +260,9 @@ export default {
     const astArrLast = astArr
       .map((item) => {
         if (item.name === 'template' && Object.keys(item.attrs).length) {
-          const slotKey = Object.keys(item.attrs)[0].replace(/#/g, '')
+          const slotKey = Object.keys(item.attrs)[0]
+            .replace(/#/g, '')
+            .replace(/v-slot:/g, '')
 
           slots[slotKey] = {
             children: this._astToSyntaxTreeArr(item.children)
