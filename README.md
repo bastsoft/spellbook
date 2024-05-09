@@ -1,35 +1,39 @@
 # spellbook
 
-This template should help get you started developing with Vue 3 in Vite.
+to work with spellbook, your storybook must be work on _vite_
 
-## Recommended IDE Setup
+## how to integrate with storybook
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+add in .storybook/main.js
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```js
+  stories: [
+  	"../node_modules/my-spellbook/src/spells-core/spell-storybook/*.stories.@(js|jsx|mjs|ts|tsx)"
+  	],
 ```
 
-### Compile and Hot-Reload for Development
+add in .storybook/preview.js
 
-```sh
-npm run dev
-```
+```js
+import { setup } from '@storybook/vue3'
+import { compile, h } from 'vue'
+import spell from 'my-spellbook/src/spells-core/spell.js'
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+setup((app) => {
+  app.use({
+    install: function (vueApp, options) {
+      vueApp.component(
+        'Spell',
+        spell({
+          compile,
+          h,
+          components: {
+            // add your components to this
+          },
+          ctxExt: {}
+        })
+      )
+    }
+  })
+})
 ```
