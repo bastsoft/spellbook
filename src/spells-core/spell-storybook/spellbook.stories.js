@@ -19,10 +19,10 @@ export const Constructor = {
     components: { SpellStorybook },
     data: () => ({
       spell: {
-        tmpl: `<button @click="action('onClick')">{{state.val}}</button>`,
+        tmpl: `<button @click="onClick">{{state.val}}</button>`,
         actions: {
-          mounted: 'ctx.state.val = 1;',
-          onClick: 'ctx.state.val += 1;'
+          mounted: 'this.state.val = 1;',
+          onClick: 'this.state.val += 1;'
         }
       },
       storyUrl: window.location.origin + '/',

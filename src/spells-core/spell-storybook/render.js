@@ -25,8 +25,8 @@ export default {
       .split('&')
       .map((i) => i.split(/=(.*)/))
       .reduce((result, [key, val]) => Object.assign(result, { [key]: val }), {})
-    const base64 = (searchObj['args'] || "").replace('base64:', '').replace(/%20/g, '+')
-    const json = JSON.parse(base64ToString(base64) || "{}")
+    const base64 = (searchObj['args'] || '').replace('base64:', '').replace(/%20/g, '+')
+    const json = JSON.parse(base64ToString(base64) || '{}')
 
     this.tmpl = json.tmpl
     this.actions = json.actions

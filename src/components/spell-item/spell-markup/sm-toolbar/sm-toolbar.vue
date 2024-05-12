@@ -13,10 +13,10 @@
 </template>
 
 <style>
-  .sm-toolbar-default{
-    display: flex;
-    margin-bottom: 10px;
-  }
+.sm-toolbar-default {
+  display: flex;
+  margin-bottom: 10px;
+}
 </style>
 
 <script>
@@ -31,9 +31,9 @@ export default {
   },
   methods: {
     addTag() {
-      const tag = prompt('Enter tag name', 'div');
-      if (tag !== null){
-        this.$emit("add", {
+      const tag = prompt('Enter tag name', 'div')
+      if (tag !== null) {
+        this.$emit('add', {
           tag,
           argsBinded: [],
           args: {},
@@ -41,14 +41,14 @@ export default {
         })
       }
     },
-    addContent(){
-      const content = prompt('Enter content', 'content');
-      if(content !== null){
-        this.$emit("add", {
+    addContent() {
+      const content = prompt('Enter content', 'content')
+      if (content !== null) {
+        this.$emit('add', {
           args: {
             content
           }
-        });
+        })
       }
     }
   }

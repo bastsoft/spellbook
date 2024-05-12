@@ -1,7 +1,17 @@
-/**
- * реальный код который используется в боевой анкете не трогать
- */
-export default function ({ compile, h ,components, ctxExt }) {
+const lifecycleHooks = [
+  'beforeCreate',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdate',
+  'updated',
+  'activated',
+  'deactivated',
+  'beforeUnmount',
+  'unmounted'
+]
+
+export default function ({ compile, h, components }) {
   return {
     props: {
       tmpl: {
@@ -11,53 +21,34 @@ export default function ({ compile, h ,components, ctxExt }) {
       actions: {
         type: Object,
         default: () => {}
+      },
+      model: {
+        type: Object,
+        default: () => {}
       }
     },
     render() {
-      const t = h(
-        {
-          emits: ['action'],
-          components,
-          props: {
-            actions: {
-              type: Object,
-              default: () => {}
-            }
-          },
-          data: () => ({
-            state: {},
-            conditions: {}
-          }),
-          mounted() {
-            this.action('mounted')
-          },
-          methods: {
-            action(actionName, payload) {
-              if ((this.actions || {})[actionName]) {
-                let action = new Function(['ctx', 'payload'], this.actions[actionName])
-                action(
-                  {
-                    action: this.action,
-                    state: this.state,
-                    conditions: this.conditions,
-                    $emit: (name, payload) => {
-                      this.$emit(name, payload)
-                    },
-                    ...(ctxExt || {})
-                  },
-                  payload
-                )
-              }
-            }
-          },
-          render: compile(this.tmpl)
-        },
-        {
-          actions: this.actions
-        }
-      )
+      const component = {
+        components,
+        data: () => ({
+          state: {}
+        }),
+        methods: {},
+        render: compile(this.tmpl)
+      }
 
-      return t
+      Object.keys(this.actions || {}).forEach((actionName) => {
+        const action = new Function(['payload'], this.actions[actionName])
+
+        if (lifecycleHooks.includes(actionName)) {
+          component[actionName] = action
+          return
+        }
+
+        component.methods[actionName] = action
+      })
+
+      return h(component)
     }
   }
 }
