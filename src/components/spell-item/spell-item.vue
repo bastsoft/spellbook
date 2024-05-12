@@ -1,25 +1,21 @@
 <template>
-  <SpellMarkup 
-    v-model:tmpl="spell.tmpl" 
+  <SpellMarkup
+    v-model:tmpl="spell.tmpl"
     @update:selectedElement="$emit('update:selectedElement', $event)"
     :argTypes="argTypes"
     :slotTypes="slotTypes"
     :presets="presets"
   >
     <template #toolbar="vbind">
-      <slot 
-        name="toolbar"
-        v-bind="vbind"
-      >
-      </slot>
+      <slot name="toolbar" v-bind="vbind"> </slot>
     </template>
   </SpellMarkup>
-  <SpellItemActions v-model="spell.actions"/>
+  <SpellItemActions v-model="spell.actions" />
 </template>
 
 <script>
 import SpellMarkup from './spell-markup/spell-markup.vue'
-import SpellItemActions from './spell-item-actions/spell-item-actions.vue';
+import SpellItemActions from './spell-item-actions/spell-item-actions.vue'
 
 export default {
   name: 'SpellItem',
@@ -35,43 +31,43 @@ export default {
         actions: {}
       })
     },
-    argTypes:{
+    argTypes: {
       type: Object,
       default: () => ({})
     },
-    slotTypes:{
+    slotTypes: {
       type: Object,
       default: () => ({})
     },
     presets: {
       type: Array,
-      default: () => ([])
+      default: () => []
     }
   },
   computed: {
-    spell:{
-      get(){
+    spell: {
+      get() {
         return this.modelValue
       },
-      set(value){
+      set(value) {
         this.$emit('update:modelValue', value)
       }
     }
   },
-  watch:{
+  watch: {
     spell: {
       deep: true,
       immediate: true,
-      handler(spell){
-      // инфиализируем spell если она пустая
-       if(Object.keys(spell || {}).length === 0){
-         this.$emit('update:modelValue', {
-          tmpl: '',
-          actions: {
-            mounted: '',
-          }
-         })
-       }
+      handler(spell) {
+        // инфиализируем spell если она пустая
+        if (Object.keys(spell || {}).length === 0) {
+          this.$emit('update:modelValue', {
+            tmpl: '',
+            actions: {
+              mounted: ''
+            }
+          })
+        }
       }
     }
   }

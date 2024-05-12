@@ -1,7 +1,7 @@
 <template>
   <SmTabs :tabs="Object.keys(this.actions || {})" v-model:tab="currentTab">
     <template #add><button @click="add">+</button></template>
-    <template #del="{tab}">
+    <template #del="{ tab }">
       <button @click="del(tab)">-</button>
     </template>
     <template #default="{ nameClass, tab }">
@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+import { PrismEditor } from 'vue-prism-editor'
+import 'vue-prism-editor/dist/prismeditor.min.css'
 
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism-tomorrow.css";
+import { highlight, languages } from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/themes/prism-tomorrow.css'
 
-import SmTabs from '../../sm-tabs/sm-tabs.vue';
+import SmTabs from '../../sm-tabs/sm-tabs.vue'
 
 export default {
   name: 'SpellItemActions',
@@ -43,21 +43,21 @@ export default {
   data: () => ({
     currentTab: ''
   }),
-  computed:{
-    actions:{
-      get(){
+  computed: {
+    actions: {
+      get() {
         return this.modelValue
       },
-      set(value){
+      set(value) {
         this.$emit('update:modelValue', value)
       }
     }
   },
-  watch:{
-    actions(value, oldValue){
-      if(!Object.keys(oldValue || {}).length){
-        this.currentTab = Object.keys(value)[0];
-        console.log("this.currentTab: ", this.actions, this.currentTab);
+  watch: {
+    actions(value, oldValue) {
+      if (!Object.keys(oldValue || {}).length) {
+        this.currentTab = Object.keys(value)[0]
+        console.log('this.currentTab: ', this.actions, this.currentTab)
       }
     }
   },
@@ -65,19 +65,19 @@ export default {
   //   this.currentTab = Object.keys(this.actions)[0];
   //   console.log("this.currentTab: ", this.actions, this.currentTab);
   // },
-  methods:{
+  methods: {
     highlighter(code) {
-      return highlight(code, languages.javascript);
+      return highlight(code, languages.javascript)
     },
-    add(){
+    add() {
       const tabName = prompt('Enter tab name', 'tab')
       if (tabName !== null) {
-        this.actions[tabName] = "";
+        this.actions[tabName] = ''
         this.currentTab = tabName
       }
     },
-    del(tabKey){
-      delete this.actions[tabKey];
+    del(tabKey) {
+      delete this.actions[tabKey]
       this.currentTab = Object.keys(this.actions)[0]
     }
   }
@@ -89,7 +89,13 @@ export default {
   background: #2d2d2d;
   color: #ccc;
 
-  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-family:
+    Fira code,
+    Fira Mono,
+    Consolas,
+    Menlo,
+    Courier,
+    monospace;
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;

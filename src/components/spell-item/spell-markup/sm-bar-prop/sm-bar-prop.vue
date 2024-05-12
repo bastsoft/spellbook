@@ -2,13 +2,13 @@
   <div class="sm-bar-prop">
     <div class="sm-bar-prop-tools">
       <button @click="unSelect" title="cнять выделение">
-        <IconUnselect/>
+        <IconUnselect />
       </button>
       <button @click="onRemove" title="удалить элемент">
-        <IconRemove/>
+        <IconRemove />
       </button>
       <button @click="onDuplicate" title="продублировать элемент">
-        <IconDuplicate/>
+        <IconDuplicate />
       </button>
     </div>
     <SmTabs v-if="selectedElement.tag" :tabs="['args', 'slots']" @update:tab="currentTab = $event">
@@ -34,10 +34,7 @@
               {{ name }}
             </div>
             <div class="sm-bar-prop-item__elem">
-              <input
-                style="width: 100%"
-                v-model="selectedElement.slots[name].prop"
-              />
+              <input style="width: 100%" v-model="selectedElement.slots[name].prop" />
               <button
                 @click="
                   () => {
@@ -48,9 +45,7 @@
                 x
               </button>
             </div>
-   
           </label>
-
         </div>
         <div :class="nameClass" v-if="tab === 'args'">
           <label>
@@ -66,7 +61,7 @@
           </label>
           <label
             class="sm-bar-prop-item"
-            v-for="(key, i) in (argKeys || [])"
+            v-for="(key, i) in argKeys || []"
             :key="key + i + (selectedElement || {}).tag"
           >
             <div>
@@ -78,9 +73,7 @@
                 v-model="selectedElement.args[key]"
                 :list="'argTypes' + key"
               />
-              <button @click="onDeleteArg(key)">
-                x
-              </button>
+              <button @click="onDeleteArg(key)">x</button>
               <input type="checkbox" :value="key" v-model="selectedElement.argsBinded" />
             </div>
             <div v-if="argTypes[key]" class="sm-bar-prop-item__desc">
@@ -97,7 +90,11 @@
         </div>
       </template>
     </SmTabs>
-    <textarea  v-if="!selectedElement.tag" v-model="selectedElement.args.content"  style="height: 80%; width: 100%;"></textarea>
+    <textarea
+      v-if="!selectedElement.tag"
+      v-model="selectedElement.args.content"
+      style="height: 80%; width: 100%"
+    ></textarea>
     <label v-if="presets.length">
       presets:
       <select v-model="presetKey">
@@ -111,10 +108,10 @@
 </template>
 
 <script>
-import SmTabs from '../../../sm-tabs/sm-tabs.vue';
-import IconUnselect from './icon-unselect.vue';
-import IconRemove from './icon-remove.vue';
-import IconDuplicate from './icon-duplicate.vue';
+import SmTabs from '../../../sm-tabs/sm-tabs.vue'
+import IconUnselect from './icon-unselect.vue'
+import IconRemove from './icon-remove.vue'
+import IconDuplicate from './icon-duplicate.vue'
 
 export default {
   name: 'SmBarProp',
@@ -170,11 +167,11 @@ export default {
         control: 'text'
       }
     },
-    slotTypeValue: "",
-    slotTypesDefault:{
-      "default": {
-        "name": "default",
-        "description": "The default Vue slot."
+    slotTypeValue: '',
+    slotTypesDefault: {
+      default: {
+        name: 'default',
+        description: 'The default Vue slot.'
       }
     }
   }),
@@ -201,11 +198,11 @@ export default {
     }
   },
   computed: {
-    slotTypes(){
-      return { ...this.slotTypesDefault, ...this.slotTypesExtra };
+    slotTypes() {
+      return { ...this.slotTypesDefault, ...this.slotTypesExtra }
     },
     argTypes() {
-      return { ...this.argTypesDefault, ...this.argTypesExtra };
+      return { ...this.argTypesDefault, ...this.argTypesExtra }
     },
     index: {
       get() {
@@ -224,15 +221,17 @@ export default {
       }
     },
     selectedElement() {
-      return this.arr[this.index] || {args:{}, slots:{}}  
+      return this.arr[this.index] || { args: {}, slots: {} }
     },
     argKeys() {
-      return Object.keys((this.selectedElement || {}).args || {}).filter((i) => i.includes(this.argTypeValue));
-    },
+      return Object.keys((this.selectedElement || {}).args || {}).filter((i) =>
+        i.includes(this.argTypeValue)
+      )
+    }
   },
   watch: {
     selectedElement() {
-      this.argTypeValue = "";
+      this.argTypeValue = ''
     }
   },
   methods: {
@@ -244,28 +243,28 @@ export default {
       this.index = null
     },
     onDuplicate() {
-      const newElem = JSON.parse(JSON.stringify(this.arr[this.index]));
-      this.arr.splice(this.index + 1, 0, newElem);
-      this.index = null;
+      const newElem = JSON.parse(JSON.stringify(this.arr[this.index]))
+      this.arr.splice(this.index + 1, 0, newElem)
+      this.index = null
     },
     onAddArg() {
-      this.selectedElement.args[this.argTypeValue] = '';
-      this.$emit("change");
+      this.selectedElement.args[this.argTypeValue] = ''
+      this.$emit('change')
     },
     onDeleteArg(key) {
-      delete this.selectedElement.args[key];
-      this.$emit("change");
+      delete this.selectedElement.args[key]
+      this.$emit('change')
     },
-    onAddSlot(){
+    onAddSlot() {
       this.selectedElement.slots[this.slotTypeValue] = {
         children: [],
         prop: ''
       }
     },
-    onChange(){
-      const selectPreset = this.presets.find(i => i.name === this.presetKey);
-      
-      this.arr[this.index] = selectPreset.elem[0];
+    onChange() {
+      const selectPreset = this.presets.find((i) => i.name === this.presetKey)
+
+      this.arr[this.index] = selectPreset.elem[0]
     }
   }
 }

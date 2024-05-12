@@ -2,27 +2,19 @@
   <div class="sm-tabs">
     <slot name="add"></slot>
     <div
-        v-for="(tab, index) in tabs"
-        :key="tab.toString() + index"
-        :class="['sm-tabs-tab', { _active: localCurrentTab === tab }]"
+      v-for="(tab, index) in tabs"
+      :key="tab.toString() + index"
+      :class="['sm-tabs-tab', { _active: localCurrentTab === tab }]"
     >
-
-      <button
-        :class="['sm-tabs-button']"
-        v-on:click="localCurrentTab = tab.toString()"
-      >
+      <button :class="['sm-tabs-button']" v-on:click="localCurrentTab = tab.toString()">
         {{ tab }}
       </button>
       <slot name="del" :index="index" :tab="localCurrentTab"></slot>
     </div>
   </div>
-    <slot
-      nameClass="sm-tabs-content"
-      :tab="localCurrentTab"
-    > 
+  <slot nameClass="sm-tabs-content" :tab="localCurrentTab">
     {{ localCurrentTab }}
-    </slot>
-
+  </slot>
 </template>
 
 <script>
@@ -32,41 +24,41 @@ export default {
     tabs: {
       type: Array,
       required: true,
-      default: ()=>([])
+      default: () => []
     },
     tab: {
       type: String
     }
   },
-  data:()=>({
+  data: () => ({
     localCurrentTab: null
   }),
-  computed:{
-    currentTab:{
-      get(){
-        return this.tab;
+  computed: {
+    currentTab: {
+      get() {
+        return this.tab
       },
-      set(value){
-        this.$emit("update:tab", value);
+      set(value) {
+        this.$emit('update:tab', value)
       }
     }
   },
-  watch:{
-    localCurrentTab(value){
-      this.currentTab = value;
+  watch: {
+    localCurrentTab(value) {
+      this.currentTab = value
     },
-    currentTab(value){
-      this.localCurrentTab = value;
+    currentTab(value) {
+      this.localCurrentTab = value
     }
   },
-  mounted(){
-    this.localCurrentTab = this.tabs[0];
+  mounted() {
+    this.localCurrentTab = this.tabs[0]
   }
 }
 </script>
 
 <style>
-.sm-tabs{
+.sm-tabs {
   display: flex;
 }
 .sm-tabs-tab {
