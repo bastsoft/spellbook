@@ -6,33 +6,21 @@
     </template>
     <template #default="{ nameClass, tab }">
       <div :class="nameClass">
-        <PrismEditor
-          class="spell-item-actions"
-          v-model="actions[tab]"
-          :highlight="highlighter"
-          line-numbers
-        />
+        <SmPrism v-model="actions[tab]" />
       </div>
     </template>
   </SmTabs>
 </template>
 
 <script>
-import { PrismEditor } from 'vue-prism-editor'
-import 'vue-prism-editor/dist/prismeditor.min.css'
-
-import { highlight, languages } from 'prismjs/components/prism-core'
-import 'prismjs/components/prism-clike'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/themes/prism-tomorrow.css'
-
+import SmPrism from '../sm-prism/sm-prism.vue'
 import SmTabs from '../../sm-tabs/sm-tabs.vue'
 
 export default {
   name: 'SpellItemActions',
   components: {
     SmTabs,
-    PrismEditor
+    SmPrism
   },
   props: {
     modelValue: {
@@ -61,14 +49,7 @@ export default {
       }
     }
   },
-  // mounted(){
-  //   this.currentTab = Object.keys(this.actions)[0];
-  //   console.log("this.currentTab: ", this.actions, this.currentTab);
-  // },
   methods: {
-    highlighter(code) {
-      return highlight(code, languages.javascript)
-    },
     add() {
       const tabName = prompt('Enter tab name', 'tab')
       if (tabName !== null) {
@@ -83,25 +64,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.spell-item-actions {
-  background: #2d2d2d;
-  color: #ccc;
-
-  font-family:
-    Fira code,
-    Fira Mono,
-    Consolas,
-    Menlo,
-    Courier,
-    monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 5px;
-}
-
-.prism-editor__textarea:focus {
-  outline: none;
-}
-</style>

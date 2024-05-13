@@ -30,11 +30,13 @@ export default {
 
     this.tmpl = json.tmpl
     this.actions = json.actions
+    this.idata = json.idata
   },
   template: `
     <Spell
       :tmpl="tmpl"
       :actions="actions"
+      :idata="idata"
     />
     `
 }

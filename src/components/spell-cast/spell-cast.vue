@@ -70,7 +70,7 @@ export default {
   },
   data: () => ({
     storyUrl: '',
-    storyTestId: 'components-test--default',
+    storyTestId: 'spellbook--render',
     isInit: false,
     code: {}
   }),

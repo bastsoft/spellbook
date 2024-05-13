@@ -10,24 +10,31 @@
       <slot name="toolbar" v-bind="vbind"> </slot>
     </template>
   </SpellMarkup>
+  <details>
+    <summary>idata</summary>
+    <SmPrism v-model="spell.idata" />
+  </details>
   <SpellItemActions v-model="spell.actions" />
 </template>
 
 <script>
 import SpellMarkup from './spell-markup/spell-markup.vue'
 import SpellItemActions from './spell-item-actions/spell-item-actions.vue'
+import SmPrism from './sm-prism/sm-prism.vue'
 
 export default {
   name: 'SpellItem',
   components: {
     SpellMarkup,
-    SpellItemActions
+    SpellItemActions,
+    SmPrism
   },
   props: {
     modelValue: {
       type: Object,
       default: () => ({
         tmpl: '',
+        idata: JSON.stringify({ state: {} }),
         actions: {}
       })
     },
