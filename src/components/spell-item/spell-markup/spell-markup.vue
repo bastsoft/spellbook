@@ -36,7 +36,7 @@
 
 <script>
 import SmTabs from '../../sm-tabs/sm-tabs.vue'
-import SmHtml from './sm-html/sm-html.vue'
+import SmHtml from '../sm-prism/sm-prism.vue'
 import SmDraggable from './sm-draggable/sm-draggable.vue'
 
 import beautify from 'js-beautify'

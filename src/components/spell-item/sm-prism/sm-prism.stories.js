@@ -1,13 +1,13 @@
-import SmHtml from './sm-html.vue'
+import SmPrism from './sm-prism.vue'
 
 export default {
-  title: 'spell-item/spell-markup/sm-html',
-  component: SmHtml,
+  title: 'spell-item/sm-prism',
+  component: SmPrism,
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: `компонент для инкопцуляции логики prismjs и beautify`
+        component: `компонент для инкопцуляции логики prismjs`
       }
     },
     slots: {}

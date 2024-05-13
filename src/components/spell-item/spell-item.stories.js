@@ -1,14 +1,5 @@
 import SpellItem from './spell-item.vue'
 
-import {
-  toStr,
-  render as storybookExampleRender
-} from '../../spells-core/storybook-example-render.js'
-
-const render = storybookExampleRender.bind(this, {
-  SpellItem
-})
-
 export default {
   title: 'spell-item',
   component: SpellItem,
@@ -21,48 +12,58 @@ export default {
     },
     slots: {}
   },
-  argTypes: {},
-  render
+  argTypes: {}
 }
 
 export const Default = {
-  tmpl: `<SpellItem v-model="state">
+  args: {},
+  render: (args) => ({
+    components: { SpellItem },
+    data: () => ({
+      state: {}
+    }),
+    setup() {
+      return { args }
+    },
+    template: `<SpellItem v-model="state">
     <template #toolbar>
       template toolbar
     </template>
   </SpellItem>
-  {{state}}
-  `,
-  actions: {
-    mounted: toStr(function (ctx) {
-      ctx.state = {}
-    })
-  }
+  {{state}}`
+  })
 }
 
 export const ExampleForm = {
   args: {},
-  tmpl: `<SpellItem v-model="state"/>
-  {{state}}
-  <button @click="action('test')">test</button>
-  `,
-  actions: {
-    mounted: toStr(function (ctx) {
-      const spell = {
-        tmpl: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">\n</link>\n<form><label>First name\n <input name="first_name" placeholder="First name" autocomplete="given-name"></input></label>\n <fieldset>\n <legend>Gender:</legend>\n <input type="radio" id="male" name="gender" checked=""></input>\n <label htmlFor="male">male</label>\n <input type="radio" id="female" name="gender"></input>\n <label htmlFor="female">female</label>\n </fieldset>\n</form>\n<button @click="action(\'showAlert\')">{{ state.btnText }}</button>',
-        actions: { mounted: 'ctx.state.btnText = "Нажми на меня"', showAlert: 'alert("Оно живет")' }
-      }
-      ctx.state.tmpl = spell.tmpl
-      ctx.state.actions = spell.actions
+  render: (args) => ({
+    components: { SpellItem },
+    data: () => ({
+      spell: {
+        tmpl: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">\n</link>\n<form><label>{{i18n[\'First name\']}}\n <input v-model="state.fName" name="first_name" :placeholder="i18n[\'First name\']" autocomplete="given-name"></input></label>\n <fieldset>\n <legend>Gender:</legend>\n <input type="radio" id="male" name="gender" checked=""></input>\n <label htmlFor="male">male</label>\n <input type="radio" id="female" name="gender"></input>\n <label htmlFor="female">female</label>\n </fieldset>\n</form>\n<button @click="showAlert">{{ state.btnText }}</button>',
+        idata: '{\n  "state":{},\n  "i18n":{\n    "First name": "Имя"\n  }\n}',
+        actions: {
+          mounted: 'this.state.btnText = "Нажми на меня"',
+          showAlert: 'alert(JSON.stringify(this.state))'
+        }
+      },
+      storyUrl: window.location.origin + '/',
+      storyTestId: 'spellbook--render'
     }),
-    test: toStr(function (ctx) {
-      //alert(JSON.stringify(ctx.state))
-      const json = JSON.stringify(ctx.state)
-      const base64 = btoa(unescape(encodeURIComponent(json)))
-      const url =
-        'http://localhost:6006/iframe.html?id=components-spell-base64--default&viewMode=story&'
+    setup() {
+      return { args }
+    },
+    methods: {
+      onTest() {
+        const json = JSON.stringify(this.spell)
+        const base64 = btoa(unescape(encodeURIComponent(json)))
+        const url = `${this.storyUrl}iframe.html?id=${this.storyTestId}&viewMode=story&`
 
-      window.open(`${url}args=base64:${base64}`)
-    })
-  }
+        window.open(`${url}args=base64:${base64}`)
+      }
+    },
+    template: `<SpellItem v-model="spell"/>
+    <pre>{{spell}}</pre>
+    <button @click="onTest">test</button>`
+  })
 }

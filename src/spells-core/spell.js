@@ -22,20 +22,23 @@ export default function ({ compile, h, components }) {
         type: Object,
         default: () => {}
       },
-      model: {
-        type: Object,
-        default: () => {}
+      idata: {
+        type: String,
+        default: () => '{ "state": {} }'
       }
     },
     render() {
+      let idata = {
+        state: {}
+      }
       const component = {
         components,
-        data: () => ({
-          state: {}
-        }),
+        data: () => idata,
         methods: {},
         render: compile(this.tmpl)
       }
+
+      idata = JSON.parse((this.idata || '{ "state": {} }').replace(/\n/g, ''))
 
       Object.keys(this.actions || {}).forEach((actionName) => {
         const action = new Function(['payload'], this.actions[actionName])
