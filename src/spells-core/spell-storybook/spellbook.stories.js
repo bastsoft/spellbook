@@ -51,6 +51,9 @@ function loadTextFile() {
 }
 
 export const Constructor = {
+  parameters: {
+    layout: 'fullscreen'
+  },
   args: {},
   render: () => ({
     template: `
@@ -132,6 +135,9 @@ export const Constructor = {
 }
 
 export const Render = {
+  parameters: {
+    layout: 'fullscreen'
+  },
   argTypes: {
     base64: {
       description: 'base64',

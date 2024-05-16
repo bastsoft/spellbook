@@ -38,7 +38,7 @@ export default function ({ compile, h, components }) {
         render: compile(this.tmpl)
       }
 
-      idata = JSON.parse((this.idata || '{ "state": {} }').replace(/\n/g, ''))
+      idata = new Function(['payload'], ' return ' + this.idata || '{ "state": {} }')()
 
       Object.keys(this.actions || {}).forEach((actionName) => {
         const action = new Function(['payload'], this.actions[actionName])

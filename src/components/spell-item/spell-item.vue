@@ -2,6 +2,7 @@
   <SpellMarkup
     v-model:tmpl="spell.tmpl"
     @update:selectedElement="$emit('update:selectedElement', $event)"
+    @selectPreset="onSelectPreset"
     :argTypes="argTypes"
     :slotTypes="slotTypes"
     :presets="presets"
@@ -58,6 +59,23 @@ export default {
       },
       set(value) {
         this.$emit('update:modelValue', value)
+      }
+    }
+  },
+  methods: {
+    onSelectPreset(selectPreset) {
+      if (selectPreset.data && confirm('заменить idata?')) {
+        this.spell.idata = JSON.stringify(
+          new Function(['payload'], ' return ' + selectPreset.data)(),
+          null,
+          2
+        )
+      }
+
+      if (selectPreset.actions && confirm('установить actions?')) {
+        Object.keys(selectPreset.actions).forEach((key) => {
+          this.spell.actions[key] = selectPreset.actions[key]
+        })
       }
     }
   },

@@ -41,7 +41,7 @@ export const ExampleForm = {
     data: () => ({
       spell: {
         tmpl: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">\n</link>\n<form><label>{{i18n[\'First name\']}}\n <input v-model="state.fName" name="first_name" :placeholder="i18n[\'First name\']" autocomplete="given-name"></input></label>\n <fieldset>\n <legend>Gender:</legend>\n <input type="radio" id="male" name="gender" checked=""></input>\n <label htmlFor="male">male</label>\n <input type="radio" id="female" name="gender"></input>\n <label htmlFor="female">female</label>\n </fieldset>\n</form>\n<button @click="showAlert">{{ state.btnText }}</button>',
-        idata: '{\n  "state":{},\n  "i18n":{\n    "First name": "Имя"\n  }\n}',
+        idata: '{\n  state:{},\n  i18n:{\n    "First name": "Имя"\n  }\n}',
         actions: {
           mounted: 'this.state.btnText = "Нажми на меня"',
           showAlert: 'alert(JSON.stringify(this.state))'
