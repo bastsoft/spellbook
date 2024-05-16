@@ -264,6 +264,7 @@ export default {
     onChange() {
       const selectPreset = this.presets.find((i) => i.name === this.presetKey)
 
+      this.$emit('selectPreset', selectPreset)
       this.arr[this.index] = selectPreset.elem[0]
     }
   }

@@ -27,6 +27,7 @@
             :argTypesExtra="argTypes"
             :slotTypesExtra="slotTypes"
             :presets="presets"
+            @selectPreset="onSelectPreset"
           />
         </div>
       </div>
@@ -128,6 +129,9 @@ export default {
     }
   },
   methods: {
+    onSelectPreset(selectPreset) {
+      this.$emit('selectPreset', selectPreset)
+    },
     onAddTag(element) {
       console.log('onAddTag : ', element)
       // subArrIndex: null, //добавление элементов

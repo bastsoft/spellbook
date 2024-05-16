@@ -112,8 +112,11 @@ export default {
             (i) => !['default', '__namedExportsOrder'].includes(i)
           )
           this.presets = presetKeys.reduce((acc, key) => {
+            const getBody = (string) =>
+              string.substring(string.indexOf('{') + 1, string.lastIndexOf('}'))
             const args = res[key].args || {}
-
+            let data = ''
+            let actions = {}
             const elem = {
               tag,
               argsBinded: [],
@@ -126,6 +129,17 @@ export default {
               const parseElemArr = spellSyntaxTree.parse(
                 renderObj.template.replace('v-bind="args"', '')
               )
+
+              if (renderObj.data && typeof renderObj.data === 'function') {
+                data = JSON.stringify(renderObj.data())
+              }
+
+              if (renderObj.methods && Object.keys(renderObj.methods).length) {
+                Object.keys(renderObj.methods).forEach((key) => {
+                  actions[key] = getBody(renderObj.methods[key].toString())
+                })
+              }
+
               elem.args = { ...parseElemArr[0].args, ...args }
               elem.argsBinded = parseElemArr[0].argsBinded
               elem.slots = parseElemArr[0].slots
@@ -133,7 +147,9 @@ export default {
 
             acc.push({
               name: key,
-              elem: [elem]
+              elem: [elem],
+              data,
+              actions
             })
 
             return acc
