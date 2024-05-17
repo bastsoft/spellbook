@@ -1,14 +1,7 @@
 import SpellCast from './spell-cast.vue'
 import IconWizard from './icon-wizard.vue'
-import { render as storybookExampleRender } from '../../spells-core/storybook-example-render.js'
-
-const render = storybookExampleRender.bind(this, {
-  SpellCast,
-  IconWizard
-})
 
 export default {
-  render,
   title: 'components/spell-cast',
   component: SpellCast,
   tags: ['autodocs'],
@@ -24,23 +17,29 @@ export default {
 }
 
 export const Default = {
-  tmpl: `
-  <SpellCast 
-  style="margin: 0 20px;"
-  :modelValue="state.code"
-  @keydown.stop
-  @drop.stop
-  @update:model-value="action('onUpdateCode')"
-  storybookUrl="http://localhost:6006/"
-  >
-    <IconWizard/>
-  </SpellCast>
-  {{state}}
-  `,
-  actions: {
-    mounted: function () {},
-    onUpdateCode: function (ctx, payload) {
-      ctx.state.code = payload
+  render: () => ({
+    components: {
+      SpellCast,
+      IconWizard
+    },
+    template: `<SpellCast 
+    style="margin: 0 20px;"
+    :modelValue="code"
+    @keydown.stop
+    @drop.stop
+    @update:model-value="onUpdateCode"
+    storybookUrl="http://localhost:6006/"
+    >
+      <IconWizard/>
+    </SpellCast>
+    {{code}}`,
+    data: () => ({
+      code: ''
+    }),
+    methods: {
+      onUpdateCode(payload) {
+        this.code = payload
+      }
     }
-  }
+  })
 }

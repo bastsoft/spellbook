@@ -33,7 +33,7 @@
                 >
                   {{ element.tag }}
                   <span class="sm-draggable-el-args">
-                    {{ element.args.label || element.args.class }}
+                    {{ element.args.title || element.args.label || element.args.class }}
                   </span>
                 </div>
                 <div
@@ -42,7 +42,7 @@
                 >
                   {{ element.tag }}
                   <span class="sm-draggable-el-args">
-                    {{ element.args.label || element.args.class }}
+                    {{ element.args.title || element.args.label || element.args.class }}
                   </span>
                 </div>
                 <div v-if="!element.tag" class="sm-draggable-el-content">
@@ -122,6 +122,7 @@ export default {
 .sm-draggable {
   min-height: 35px;
   outline: 1px dashed;
+  padding-inline-start: 20px;
 }
 
 .sm-toolbar + .sm-draggable {
@@ -152,10 +153,11 @@ export default {
 .sm-draggable-slot-name {
   font-family: 'Courier New', Courier, monospace;
   font-size: 10px;
-  color: gainsboro;
+  color: blue;
   font-weight: 100;
   margin: 0;
   padding: 0;
+  height: 19px;
 }
 
 .sm-draggable-el-content {

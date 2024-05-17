@@ -1,12 +1,4 @@
 import SmBarProp from './sm-bar-prop.vue'
-import {
-  toStr,
-  render as storybookExampleRender
-} from '../../../../spells-core/storybook-example-render.js'
-
-const render = storybookExampleRender.bind(this, {
-  SmBarProp
-})
 
 export default {
   title: 'spell-item/spell-markup/sm-bar-prop',
@@ -22,26 +14,23 @@ export default {
     },
     slots: {}
   },
-  argTypes: {},
-  render
+  argTypes: {}
 }
 
 export const Default = {
-  args: {},
-  tmpl: `
-  <SmBarProp
-    v-if="state.subArrIndex !== null"
-    v-model:subArr="state.subArr"
-    v-model:subArrIndex="state.subArrIndex"
+  render: () => ({
+    components: { SmBarProp },
+    template: ` <SmBarProp
+    v-if="subArrIndex !== null"
+    v-model:subArr="subArr"
+    v-model:subArrIndex="subArrIndex"
   />
   <pre>
-  {{ state.subArr }}
-  </pre>
-  `,
-  actions: {
-    mounted: toStr(function (ctx) {
-      ctx.state.subArrIndex = '0'
-      ctx.state.subArr = [
+  {{ subArr }}
+  </pre>`,
+    data: () => ({
+      subArrIndex: 0,
+      subArr: [
         {
           tag: 'TEST',
           argsBinded: [],
@@ -57,5 +46,5 @@ export const Default = {
         }
       ]
     })
-  }
+  })
 }
