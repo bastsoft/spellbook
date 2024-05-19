@@ -1,14 +1,9 @@
 import StorybookTree from './storybook-tree.vue'
-import { render as storybookExampleRender } from '../../../spells-core/storybook-example-render.js'
 import StorybookRemoute from '../../../spells-core/storybook-remoute.js'
-const render = storybookExampleRender.bind(this, {
-  StorybookTree
-})
 
 let storybookRemoute = new StorybookRemoute()
 
 export default {
-  render,
   title: 'spell-storybook/storybook-tree',
   component: StorybookTree,
   tags: ['autodocs'],
@@ -24,23 +19,19 @@ export default {
 }
 
 export const Default = {
-  tmpl: `
-  <label>
-  url storybook
-  <input v-model="state.url"/>
-  </label>
-  <button @click="action('load')">load</button>
-  <StorybookTree :children="(state.entriesTree || {}).children || {}" @add="action('select', $event)"/>
-  {{ state.selectedElem }}
-  `,
-  actions: {
-    select: function (ctx, payload) {
-      ctx.state.selectedElem = payload
-    },
-    mounted: function (ctx) {
-      ctx.state.url = 'http://localhost:6007/'
-      ctx.state.selectedElem = null
-      ctx.state.entriesTree = {
+  render: () => ({
+    components: { StorybookTree },
+    template: `<label>
+    url storybook
+    <input v-model="url"/>
+    </label>
+    <button @click="action('load')">load</button>
+    <StorybookTree :children="(entriesTree || {}).children || {}" @add="action('select', $event)"/>
+    {{ selectedElem }}`,
+    data: () => ({
+      url: 'http://localhost:6007/',
+      selectedElem: null,
+      entriesTree: {
         children: {
           VCard: {
             children: {},
@@ -110,11 +101,16 @@ export const Default = {
           }
         }
       }
-    },
-    load: function (ctx) {
-      storybookRemoute.loadStorybokIndex(ctx.state.url).then(() => {
-        ctx.state.entriesTree = storybookRemoute.getOnlyStoryFromEntries()
-      })
+    }),
+    methods: {
+      select: function (payload) {
+        this.selectedElem = payload
+      },
+      load: function () {
+        storybookRemoute.loadStorybokIndex(this.url).then(() => {
+          this.entriesTree = storybookRemoute.getOnlyStoryFromEntries()
+        })
+      }
     }
-  }
+  })
 }

@@ -64,17 +64,34 @@ export default {
   },
   methods: {
     onSelectPreset(selectPreset) {
-      if (selectPreset.data && confirm('заменить idata?')) {
-        this.spell.idata = JSON.stringify(
-          new Function(['payload'], ' return ' + selectPreset.data)(),
-          null,
-          2
-        )
+      const extend = function (target, source) {
+        for (let key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            if (typeof source[key] === 'object' && source[key] !== null) {
+              if (!target[key]) {
+                target[key] = Array.isArray(source[key]) ? [] : {}
+              }
+              extend(target[key], source[key])
+            } else {
+              target[key] = source[key]
+            }
+          }
+        }
+        return target
       }
 
-      if (selectPreset.actions && confirm('установить actions?')) {
+      if (selectPreset.data && confirm('расширить idata?')) {
+        const selectPresetData = new Function(['payload'], ' return ' + selectPreset.data)()
+        let data = new Function(['payload'], ' return ' + (this.spell.idata || '{}'))()
+        data = extend(data, selectPresetData)
+        this.spell.idata = JSON.stringify(data, null, 2)
+      }
+
+      if (selectPreset.actions && confirm('расширить actions?')) {
         Object.keys(selectPreset.actions).forEach((key) => {
-          this.spell.actions[key] = selectPreset.actions[key]
+          if (!this.spell.actions[key]) {
+            this.spell.actions[key] = selectPreset.actions[key]
+          }
         })
       }
     }
