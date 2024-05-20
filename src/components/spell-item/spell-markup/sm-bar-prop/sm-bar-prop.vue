@@ -98,11 +98,11 @@
     <label v-if="presets.length">
       presets:
       <select v-model="presetKey">
-        <option v-for="(value, index) in presets" :key="value.name + index">
-          {{ value.name }}
+        <option v-for="(key, index) in presets" :key="key + ' ' + index">
+          {{ key }}
         </option>
       </select>
-      <button @click="onChange">+</button>
+      <button @click="onSetPreset">+</button>
     </label>
   </div>
 </template>
@@ -261,11 +261,8 @@ export default {
         prop: ''
       }
     },
-    onChange() {
-      const selectPreset = this.presets.find((i) => i.name === this.presetKey)
-
-      this.$emit('selectPreset', selectPreset)
-      this.arr[this.index] = selectPreset.elem[0]
+    onSetPreset() {
+      this.$emit('selectPreset', this.presetKey)
     }
   }
 }

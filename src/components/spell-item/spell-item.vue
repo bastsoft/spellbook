@@ -1,8 +1,10 @@
 <template>
   <SpellMarkup
     v-model:tmpl="spell.tmpl"
+    v-model:arr="subArr"
+    v-model:index="subArrIndex"
     @update:selectedElement="$emit('update:selectedElement', $event)"
-    @selectPreset="onSelectPreset"
+    @selectPreset="$emit('selectPreset', $event)"
     :argTypes="argTypes"
     :slotTypes="slotTypes"
     :presets="presets"
@@ -50,6 +52,14 @@ export default {
     presets: {
       type: Array,
       default: () => []
+    },
+    index: {
+      type: [Number, String],
+      default: null
+    },
+    arr: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -60,39 +70,21 @@ export default {
       set(value) {
         this.$emit('update:modelValue', value)
       }
-    }
-  },
-  methods: {
-    onSelectPreset(selectPreset) {
-      const extend = function (target, source) {
-        for (let key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            if (typeof source[key] === 'object' && source[key] !== null) {
-              if (!target[key]) {
-                target[key] = Array.isArray(source[key]) ? [] : {}
-              }
-              extend(target[key], source[key])
-            } else {
-              target[key] = source[key]
-            }
-          }
-        }
-        return target
+    },
+    subArrIndex: {
+      get() {
+        return this.index
+      },
+      set(value) {
+        this.$emit('update:index', value)
       }
-
-      if (selectPreset.data && confirm('расширить idata?')) {
-        const selectPresetData = new Function(['payload'], ' return ' + selectPreset.data)()
-        let data = new Function(['payload'], ' return ' + (this.spell.idata || '{}'))()
-        data = extend(data, selectPresetData)
-        this.spell.idata = JSON.stringify(data, null, 2)
-      }
-
-      if (selectPreset.actions && confirm('расширить actions?')) {
-        Object.keys(selectPreset.actions).forEach((key) => {
-          if (!this.spell.actions[key]) {
-            this.spell.actions[key] = selectPreset.actions[key]
-          }
-        })
+    },
+    subArr: {
+      get() {
+        return this.arr
+      },
+      set(value) {
+        this.$emit('update:arr', value)
       }
     }
   },
