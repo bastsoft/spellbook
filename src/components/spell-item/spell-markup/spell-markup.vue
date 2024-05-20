@@ -70,16 +70,38 @@ export default {
     slotTypes: {
       type: Object,
       default: () => ({})
+    },
+    index: {
+      type: [Number, String],
+      default: null
+    },
+    arr: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
     selectedId: null,
     syntaxTree: [],
-    subArr: [],
-    subArrIndex: null,
     currentTab: 'HTML'
   }),
   computed: {
+    subArrIndex: {
+      get() {
+        return this.index
+      },
+      set(value) {
+        this.$emit('update:index', value)
+      }
+    },
+    subArr: {
+      get() {
+        return this.arr
+      },
+      set(value) {
+        this.$emit('update:arr', value)
+      }
+    },
     tmplHtml: {
       get() {
         return this.tmpl

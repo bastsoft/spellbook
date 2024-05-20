@@ -6,10 +6,13 @@
   <button @click="onLoad">load</button>
   <SpellItem
     v-model="spell"
+    v-model:arr="subArr"
+    v-model:index="subArrIndex"
     @update:selectedElement="onSelectedElement"
+    @selectPreset="onSelectPreset"
     :argTypes="argTypes"
     :slotTypes="slotTypes"
-    :presets="presets"
+    :presets="Object.keys(presets)"
   >
     <template #toolbar="{ onAddTag }">
       <StorybookTree :children="(entriesTree || {}).children || {}" @add="onAddTag" />
@@ -54,10 +57,12 @@ export default {
     }
   },
   data: () => ({
-    presets: [],
+    presets: {},
     entriesTree: {},
     argTypes: {},
-    slotTypes: {}
+    slotTypes: {},
+    subArr: [],
+    subArrIndex: null
   }),
   computed: {
     testId: {
@@ -93,7 +98,7 @@ export default {
     },
     onSelectedElement(elem) {
       this.argTypes = {}
-      this.presets = []
+      this.presets = {}
       let importPath = null
 
       storybookRemoute.getOnlyStoryFromEntries().forEach((entry) => {
@@ -112,48 +117,89 @@ export default {
             (i) => !['default', '__namedExportsOrder'].includes(i)
           )
           this.presets = presetKeys.reduce((acc, key) => {
-            const getBody = (string) =>
-              string.substring(string.indexOf('{') + 1, string.lastIndexOf('}'))
-            const args = res[key].args || {}
-            let data = ''
-            let actions = {}
-            const elem = {
+            acc[key] = {
               tag,
-              argsBinded: [],
-              args,
-              slots: {}
+              render: res[key].render,
+              args: res[key].args || {},
+              argTypes: res[key].argTypes
             }
-
-            if (res[key].render) {
-              const renderObj = res[key].render(args)
-              const parseElemArr = spellSyntaxTree.parse(
-                renderObj.template.replace('v-bind="args"', '')
-              )
-
-              if (renderObj.data && typeof renderObj.data === 'function') {
-                data = JSON.stringify(renderObj.data())
-              }
-
-              if (renderObj.methods && Object.keys(renderObj.methods).length) {
-                Object.keys(renderObj.methods).forEach((key) => {
-                  actions[key] = getBody(renderObj.methods[key].toString())
-                })
-              }
-
-              elem.args = { ...parseElemArr[0].args, ...args }
-              elem.argsBinded = parseElemArr[0].argsBinded
-              elem.slots = parseElemArr[0].slots
-            }
-
-            acc.push({
-              name: key,
-              elem: [elem],
-              data,
-              actions
-            })
 
             return acc
-          }, [])
+          }, {})
+        })
+      }
+    },
+    onSelectPreset(key) {
+      const extend = function (target, source) {
+        for (let key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            if (typeof source[key] === 'object' && source[key] !== null) {
+              if (!target[key]) {
+                target[key] = Array.isArray(source[key]) ? [] : {}
+              }
+              extend(target[key], source[key])
+            } else {
+              target[key] = source[key]
+            }
+          }
+        }
+        return target
+      }
+
+      const getBody = (string) => string.substring(string.indexOf('{') + 1, string.lastIndexOf('}'))
+
+      const selectPreset = this.presets[key]
+
+      const elem = {
+        tag: selectPreset.tag,
+        argsBinded: [],
+        args: selectPreset.argTypes ? {} : selectPreset.args,
+        slots: {}
+      }
+      let data = ''
+      let actions = {}
+      let renderArgs = JSON.parse(JSON.stringify(selectPreset.args))
+
+      if (selectPreset.argTypes) {
+        Object.keys(selectPreset.argTypes).forEach((key) => {
+          renderArgs[key] = window.prompt(selectPreset.argTypes[key].description, renderArgs[key])
+        })
+      }
+
+      if (selectPreset.render) {
+        const renderObj = selectPreset.render(renderArgs)
+        console.log('renderObj : ', renderObj)
+        const parseElemArr = spellSyntaxTree.parse(renderObj.template.replace('v-bind="args"', ''))
+
+        if (renderObj.data && typeof renderObj.data === 'function') {
+          data = JSON.stringify(renderObj.data())
+        }
+
+        if (renderObj.methods && Object.keys(renderObj.methods).length) {
+          Object.keys(renderObj.methods).forEach((key) => {
+            actions[key] = getBody(renderObj.methods[key].toString())
+          })
+        }
+
+        elem.args = { ...parseElemArr[0].args, ...elem.args }
+        elem.argsBinded = parseElemArr[0].argsBinded
+        elem.slots = parseElemArr[0].slots
+      }
+
+      this.subArr[this.subArrIndex] = elem
+
+      if (data && confirm('расширить idata?')) {
+        const selectPresetData = new Function(['payload'], ' return ' + data)()
+        let idata = new Function(['payload'], ' return ' + (this.spell.idata || '{}'))()
+        idata = extend(idata, selectPresetData)
+        this.spell.idata = JSON.stringify(idata, null, 2)
+      }
+
+      if (actions && confirm('расширить actions?')) {
+        Object.keys(actions).forEach((key) => {
+          if (!this.spell.actions[key]) {
+            this.spell.actions[key] = actions[key]
+          }
         })
       }
     },
