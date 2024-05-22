@@ -1,6 +1,6 @@
 import RenderJS from './render.js'
 import SpellStorybook from '../../components/spell-storybook/spell-storybook.vue'
-
+import "./spell-theme.css"
 export default {
   title: 'spellbook'
 }
@@ -57,6 +57,7 @@ export const Constructor = {
   args: {},
   render: () => ({
     template: `
+    <div class="spell-theme">
     <SpellStorybook 
       v-model="spell"
       v-model:storyUrl="storyUrl"
@@ -69,15 +70,14 @@ export const Constructor = {
       <button @click="onLoad">load</button>
       <button @click="onSaveLikeJs">save as js</button>
     </details>
+    </div>
     
     `,
     components: { SpellStorybook },
     data: () => ({
       spell: {
-        tmpl: `<button @click="onClick">{{state.val}}</button>`,
+        tmpl: "",
         actions: {
-          mounted: 'this.state.val = 1;',
-          onClick: 'this.state.val += 1;'
         }
       },
       storyUrl: window.location.origin + '/',
@@ -101,12 +101,14 @@ export const Constructor = {
 
         const component = {
           components: {},
-          data: () => ({
+          data: {
             state: {}
-          }),
+          },
           methods: {},
           template: this.spell.tmpl
         }
+
+        component.data = this.spell.idata || {};
 
         Object.keys(this.spell.actions || {}).forEach((actionName) => {
           const action = new Function(['payload'], this.spell.actions[actionName])
@@ -121,7 +123,17 @@ export const Constructor = {
         })
 
         if (fileName !== null) {
-          saveTextFile(fileName, JSON.stringify(component, null, 2))
+          saveTextFile(
+            fileName, 
+            "export default " + JSON.stringify(component, null, 2)
+              .replace(/"template":\s*"(.*)"/, 'template: `$1`')
+              .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
+              .replace(/\(payload\\n\)/g, "(payload)")
+              .replace(/\\n/g, "\n")
+              .replace(/\\"/g, '"')
+              .replace(/"data":\s*"{/, 'data:()=>({')
+              .replace(/}",/, '}),')
+          )
         }
       },
       onTest(urlTest) {

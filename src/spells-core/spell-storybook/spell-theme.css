@@ -1,0 +1,13 @@
+.spell-theme {
+	background: white;	
+}
+
+.spell-theme button {
+	border: 1px solid black;
+	padding: 1px 10px;
+}
+
+.spell-theme input {
+	border: 1px solid black;
+	padding: 1px 10px;
+}
