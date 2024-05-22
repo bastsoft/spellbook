@@ -1,6 +1,6 @@
 import RenderJS from './render.js'
 import SpellStorybook from '../../components/spell-storybook/spell-storybook.vue'
-import "./spell-theme.css"
+import './spell-theme.css'
 export default {
   title: 'spellbook'
 }
@@ -76,9 +76,8 @@ export const Constructor = {
     components: { SpellStorybook },
     data: () => ({
       spell: {
-        tmpl: "",
-        actions: {
-        }
+        tmpl: '',
+        actions: {}
       },
       storyUrl: window.location.origin + '/',
       storyTestId: 'spellbook--render'
@@ -108,7 +107,7 @@ export const Constructor = {
           template: this.spell.tmpl
         }
 
-        component.data = this.spell.idata || {};
+        component.data = this.spell.idata || {}
 
         Object.keys(this.spell.actions || {}).forEach((actionName) => {
           const action = new Function(['payload'], this.spell.actions[actionName])
@@ -124,15 +123,16 @@ export const Constructor = {
 
         if (fileName !== null) {
           saveTextFile(
-            fileName, 
-            "export default " + JSON.stringify(component, null, 2)
-              .replace(/"template":\s*"(.*)"/, 'template: `$1`')
-              .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
-              .replace(/\(payload\\n\)/g, "(payload)")
-              .replace(/\\n/g, "\n")
-              .replace(/\\"/g, '"')
-              .replace(/"data":\s*"{/, 'data:()=>({')
-              .replace(/}",/, '}),')
+            fileName,
+            'export default ' +
+              JSON.stringify(component, null, 2)
+                .replace(/"template":\s*"(.*)"/, 'template: `$1`')
+                .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
+                .replace(/\(payload\\n\)/g, '(payload)')
+                .replace(/\\n/g, '\n')
+                .replace(/\\"/g, '"')
+                .replace(/"data":\s*"{/, 'data:()=>({')
+                .replace(/}",/, '}),')
           )
         }
       },
