@@ -181,6 +181,23 @@ export default {
           })
         }
 
+        [
+          'beforeCreate',
+          'created',
+          'beforeMount',
+          'mounted',
+          'beforeUpdate',
+          'updated',
+          'activated',
+          'deactivated',
+          'beforeUnmount',
+          'unmounted'
+        ].forEach((key) => {
+          if(renderObj[key]){
+            actions[key] = getBody(renderObj[key].toString())
+          }
+        })
+
         elem.args = { ...parseElemArr[0].args, ...elem.args }
         elem.argsBinded = parseElemArr[0].argsBinded
         elem.slots = parseElemArr[0].slots
