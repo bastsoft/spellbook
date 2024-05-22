@@ -181,7 +181,7 @@ export default {
           })
         }
 
-        [
+        ;[
           'beforeCreate',
           'created',
           'beforeMount',
@@ -193,7 +193,7 @@ export default {
           'beforeUnmount',
           'unmounted'
         ].forEach((key) => {
-          if(renderObj[key]){
+          if (renderObj[key]) {
             actions[key] = getBody(renderObj[key].toString())
           }
         })
