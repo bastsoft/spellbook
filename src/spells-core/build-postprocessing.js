@@ -1,11 +1,11 @@
 //node ./src/spells-core/build-postprocessing.js
 
 import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+//import path from 'path'
+//import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-var storybookBuildDir = path.join(__dirname, '../../storybook-static/')
+//const __dirname = path.dirname(fileURLToPath(import.meta.url))
+var storybookBuildDir = './storybook-static/'
 
 console.log('start build-postprocessing')
 
@@ -29,12 +29,12 @@ fs.promises
     return fileBuffer.toString()
   })
   .then((fileData) => {
+    const importFnSingn = fileData.split('async function ')[1].split('(')[0]
     const data = fileData
       .replace(/window\./g, 'localGlobal.')
-      .replace('export { e as _ }', '')
       .replace('import"../sb-preview/runtime.js"', 'import"../../../sb-preview/runtime.js"')
       .replace('=>__vite__fileDeps', '=>"../../../assets/"+__vite__fileDeps')
-      .replace(/\(\)=>import\("\./g, '()=>import("../../../assets/')
+      .replace(/\(\)=>import\("\./g, '()=>import("../../../assets')
 
     const newFileDAta = `
 const localGlobal = {}
@@ -57,7 +57,7 @@ createBrowserChannel: () => {}
 ${data}
   
 export async function importFn(path) {
-return y(path);
+return ${importFnSingn}(path);
 }
 
 `
