@@ -2,7 +2,7 @@
 
 to work with spellbook, your storybook must be work on _vite_
 
-## how to integrate with storybook
+## how to integrate with storybook 8.0.0
 
 add in .storybook/main.js
 
@@ -36,4 +36,10 @@ setup((app) => {
     }
   })
 })
+```
+
+add in package.json
+
+```js
+"build": "npm run build-storybook && node node_modules/my-spellbook/src/spells-core/build-postprocessing.js",
 ```
