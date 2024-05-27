@@ -1,7 +1,7 @@
 import SmTabs from './sm-tabs.vue'
 
 export default {
-  title: 'sm-tabs',
+  title: 'uikit/SmTabs',
   component: SmTabs,
   tags: ['autodocs'],
   parameters: {

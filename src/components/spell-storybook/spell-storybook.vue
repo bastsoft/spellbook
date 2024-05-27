@@ -5,6 +5,7 @@
   </label>
   <button @click="onLoad">load</button>
   <SpellItem
+    ref="SpellItem"
     v-model="spell"
     v-model:arr="subArr"
     v-model:index="subArrIndex"
@@ -219,9 +220,14 @@ export default {
           }
         })
       }
+
+      this.$refs.SpellItem.onChange()
     },
     goTest() {
-      const url = `${this.url}iframe.html?id=${this.storyTestId}&viewMode=story&args=base64:`
+      let isDev = process.env.NODE_ENV === 'development'
+      let iframe = isDev ? 'iframe.html' : 'iframe'
+
+      const url = `${this.url}${iframe}?id=${this.storyTestId}&viewMode=story&args=base64:`
       this.$emit('test', url)
     }
   }

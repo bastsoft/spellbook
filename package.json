@@ -1,12 +1,13 @@
 {
   "name": "my-spellbook",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 7086",
     "build-storybook": "storybook build",
+    "build": "npm run build-storybook && node ./src/spells-core/build-postprocessing.js",
     "jest": "jest"
   },
   "dependencies": {

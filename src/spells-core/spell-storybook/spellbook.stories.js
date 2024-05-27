@@ -69,6 +69,7 @@ export const Constructor = {
       <button @click="onSave">save</button>
       <button @click="onLoad">load</button>
       <button @click="onSaveLikeJs">save as js</button>
+      <button @click="onSaveLikeVue">save as vue</button>
     </details>
     </div>
     
@@ -133,6 +134,64 @@ export const Constructor = {
                 .replace(/\\"/g, '"')
                 .replace(/"data":\s*"{/, 'data:()=>({')
                 .replace(/}",/, '}),')
+          )
+        }
+      },
+      onSaveLikeVue() {
+        const fileName = prompt('Enter file name', 'Spell.vue')
+
+        const component = {
+          components: {},
+          data: {
+            state: {}
+          },
+          methods: {},
+          template: this.spell.tmpl
+        }
+
+        component.data = this.spell.idata || {}
+
+        Object.keys(this.spell.actions || {}).forEach((actionName) => {
+          const action = new Function(['payload'], this.spell.actions[actionName])
+          //const action = '(){ ' + this.spell.actions[actionName] + '}'
+
+          if (lifecycleHooks.includes(actionName)) {
+            component[actionName] = action.toString()
+            return
+          }
+
+          component.methods[actionName] = action.toString()
+        })
+
+        const template = component.template
+        delete component.template
+
+        if (fileName !== null) {
+          saveTextFile(
+            fileName,
+            `
+<template>
+${template
+  .replace(/"template":\s*"(.*)"/, 'template: `$1`')
+  .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
+  .replace(/\(payload\\n\)/g, '(payload)')
+  .replace(/\\n/g, '\n')
+  .replace(/\\"/g, '"')
+  .replace(/"data":\s*"{/, 'data:()=>({')
+  .replace(/}",/, '}),')}
+</template>
+<script>
+export default` +
+              JSON.stringify(component, null, 2)
+                .replace(/"template":\s*"(.*)"/, 'template: `$1`')
+                .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
+                .replace(/\(payload\\n\)/g, '(payload)')
+                .replace(/\\n/g, '\n')
+                .replace(/\\"/g, '"')
+                .replace(/"data":\s*"{/, 'data:()=>({')
+                .replace(/}",/, '}),') +
+              `
+</script>`
           )
         }
       },

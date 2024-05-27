@@ -14,7 +14,7 @@
 
 <script>
 import SmPrism from '../sm-prism/sm-prism.vue'
-import SmTabs from '../../sm-tabs/sm-tabs.vue'
+import SmTabs from '../../../uikit/sm-tabs/sm-tabs.vue'
 
 export default {
   name: 'SpellItemActions',
