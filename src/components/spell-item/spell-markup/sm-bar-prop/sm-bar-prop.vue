@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import SmTabs from '../../../sm-tabs/sm-tabs.vue'
+import SmTabs from '../../../../uikit/sm-tabs/sm-tabs.vue'
 import IconUnselect from './icon-unselect.vue'
 import IconRemove from './icon-remove.vue'
 import IconDuplicate from './icon-duplicate.vue'

@@ -2,6 +2,9 @@
 require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
+  globals: {
+    process: true
+  },
   env: {
     jest: true
   },

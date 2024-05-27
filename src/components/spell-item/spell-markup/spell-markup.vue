@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import SmTabs from '../../sm-tabs/sm-tabs.vue'
+import SmTabs from '../../../uikit/sm-tabs/sm-tabs.vue'
 import SmHtml from '../sm-prism/sm-prism.vue'
 import SmDraggable from './sm-draggable/sm-draggable.vue'
 
@@ -158,7 +158,7 @@ export default {
       console.log('onAddTag : ', element)
       // subArrIndex: null, //добавление элементов
       this.subArr.push(element)
-      this.onStringify()
+      this.onChange()
     },
     onBeautify() {
       this.tmplHtml = beautify.html(this.tmplHtml)

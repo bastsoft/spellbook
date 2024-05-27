@@ -1,5 +1,6 @@
 <template>
   <SpellMarkup
+    ref="SpellMarkup"
     v-model:tmpl="spell.tmpl"
     v-model:arr="subArr"
     v-model:index="subArrIndex"
@@ -103,6 +104,11 @@ export default {
           })
         }
       }
+    }
+  },
+  methods: {
+    onChange() {
+      this.$refs.SpellMarkup.onChange()
     }
   }
 }

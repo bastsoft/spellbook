@@ -4,6 +4,8 @@ import { setup } from '@storybook/vue3'
 import { compile, h } from 'vue'
 import spell from '../src/spells-core/spell.js'
 
+import SmTabs from '../src/uikit/sm-tabs/sm-tabs.vue'
+
 setup((app) => {
   app.use({
     install: function (vueApp, options) {
@@ -13,7 +15,7 @@ setup((app) => {
           compile,
           h,
           components: {
-            // add your components to this
+            SmTabs
           },
           ctxExt: {}
         })

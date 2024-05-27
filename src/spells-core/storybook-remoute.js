@@ -67,22 +67,23 @@ export default class StorybookRemoute {
       (acc, entry) => {
         const keys = entry.title.split('/')
         let subObj = acc
+
+        if (entry.title === 'spellbook') {
+          return acc
+        }
+
         keys.forEach((key) => {
           if (!subObj.children[key]) {
             subObj.children[key] = { children: {} }
           }
           subObj = subObj.children[key]
         })
+
         subObj.value = entry
 
         return acc
       },
       { children: {} }
     )
-  }
-
-  getIframeLink() {
-    // <iframe src="http://localhost:6006/iframe.html?args=label:name&id=example-vtextfield--primary"/>
-    return 'http://localhost:6006/iframe.html?args=text:OK;size:large;density:compact;loading:!false;stacked:!false;ripple:!false;variant:outlined;elevation:6&id=example-vbtn--primary'
   }
 }

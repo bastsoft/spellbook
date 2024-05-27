@@ -53,17 +53,7 @@ export const ExampleForm = {
     setup() {
       return { args }
     },
-    methods: {
-      onTest() {
-        const json = JSON.stringify(this.spell)
-        const base64 = btoa(unescape(encodeURIComponent(json)))
-        const url = `${this.storyUrl}iframe.html?id=${this.storyTestId}&viewMode=story&`
-
-        window.open(`${url}args=base64:${base64}`)
-      }
-    },
     template: `<SpellItem v-model="spell"/>
-    <pre>{{spell}}</pre>
-    <button @click="onTest">test</button>`
+    <pre>{{spell}}</pre>`
   })
 }
