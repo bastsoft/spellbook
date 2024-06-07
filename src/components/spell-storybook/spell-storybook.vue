@@ -199,9 +199,20 @@ export default {
           }
         })
 
-        elem.args = { ...parseElemArr[0].args, ...elem.args }
-        elem.argsBinded = parseElemArr[0].argsBinded
-        elem.slots = parseElemArr[0].slots
+        // TODO: добавить поиск нужного элемента по tag
+        let elemPreset = parseElemArr[0]
+
+        if (
+          elemPreset.tag !== selectPreset.tag &&
+          elemPreset.slots.default.children[0].tag === selectPreset.tag
+        ) {
+          // поддержка wrapper-ов в шаблоне
+          elemPreset = elemPreset.slots.default.children[0]
+        }
+
+        elem.args = { ...elemPreset.args, ...elem.args }
+        elem.argsBinded = elemPreset.argsBinded
+        elem.slots = elemPreset.slots
       }
 
       this.subArr[this.subArrIndex] = elem
@@ -224,8 +235,8 @@ export default {
       this.$refs.SpellItem.onChange()
     },
     goTest() {
-      let isDev = process.env.NODE_ENV === 'development'
-      let iframe = isDev ? 'iframe.html' : 'iframe'
+      //let isDev = process.env.NODE_ENV === 'development'
+      let iframe = 'iframe.html' //isDev ? 'iframe.html' : 'iframe'
 
       const url = `${this.url}${iframe}?id=${this.storyTestId}&viewMode=story&args=base64:`
       this.$emit('test', url)
