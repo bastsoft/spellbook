@@ -5,18 +5,19 @@ export default {
   title: 'spellbook'
 }
 
-const lifecycleHooks = [
-  'beforeCreate',
-  'created',
-  'beforeMount',
-  'mounted',
-  'beforeUpdate',
-  'updated',
-  'activated',
-  'deactivated',
-  'beforeUnmount',
-  'unmounted'
-]
+const lifecycleHooksObj = {
+  beforeCreate: '',
+  created: '',
+  beforeMount: 'onBeforeMount',
+  mounted: 'onMounted',
+  beforeUpdate: 'onBeforeUpdate',
+  updated: 'onUpdated',
+  activated: 'onActivated',
+  deactivated: 'onDeactivated',
+  beforeUnmount: 'onBeforeUnmount',
+  unmounted: 'onUnmounted'
+}
+const lifecycleHooks = Object.keys(lifecycleHooksObj)
 
 function saveTextFile(filename, content) {
   const blob = new Blob([content], { type: 'text/plain' })
@@ -70,6 +71,7 @@ export const Constructor = {
       <button @click="onLoad">load</button>
       <button @click="onSaveLikeJs">save as js</button>
       <button @click="onSaveLikeVue">save as vue</button>
+      <button @click="onSaveLikeVueSetup">save as vue setup</button>
     </details>
     </div>
     
@@ -108,7 +110,7 @@ export const Constructor = {
           template: this.spell.tmpl
         }
 
-        component.data = this.spell.idata || {}
+        component.data = this.spell.idata || '{}'
 
         Object.keys(this.spell.actions || {}).forEach((actionName) => {
           const action = new Function(['payload'], this.spell.actions[actionName])
@@ -145,11 +147,10 @@ export const Constructor = {
           data: {
             state: {}
           },
-          methods: {},
-          template: this.spell.tmpl
+          methods: {}
         }
 
-        component.data = this.spell.idata || {}
+        component.data = this.spell.idata || '{}'
 
         Object.keys(this.spell.actions || {}).forEach((actionName) => {
           const action = new Function(['payload'], this.spell.actions[actionName])
@@ -163,27 +164,17 @@ export const Constructor = {
           component.methods[actionName] = action.toString()
         })
 
-        const template = component.template
-        delete component.template
-
         if (fileName !== null) {
           saveTextFile(
             fileName,
             `
 <template>
-${template
-  .replace(/"template":\s*"(.*)"/, 'template: `$1`')
-  .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
-  .replace(/\(payload\\n\)/g, '(payload)')
-  .replace(/\\n/g, '\n')
-  .replace(/\\"/g, '"')
-  .replace(/"data":\s*"{/, 'data:()=>({')
-  .replace(/}",/, '}),')}
+${this.spell.tmpl.replace(/\\n/g, '\n').replace(/\\"/g, '"')}
 </template>
+
 <script>
 export default` +
               JSON.stringify(component, null, 2)
-                .replace(/"template":\s*"(.*)"/, 'template: `$1`')
                 .replace(/"(.*)":\s*"function anonymous(.*)"/g, '$1$2')
                 .replace(/\(payload\\n\)/g, '(payload)')
                 .replace(/\\n/g, '\n')
@@ -191,6 +182,76 @@ export default` +
                 .replace(/"data":\s*"{/, 'data:()=>({')
                 .replace(/}",/, '}),') +
               `
+</script>`
+          )
+        }
+      },
+      onSaveLikeVueSetup() {
+        const fileName = prompt('Enter file name', 'Spell.vue')
+
+        const methods = []
+
+        Object.keys(this.spell.actions || {}).forEach((actionName) => {
+          const action = new Function(['payload'], this.spell.actions[actionName])
+
+          if (lifecycleHooks.includes(actionName)) {
+            methods.push(
+              lifecycleHooksObj[actionName] +
+                '(' +
+                action
+                  .toString()
+                  .toString()
+                  .replace(/\(payload\n\)/g, '(payload)')
+                  .replace('anonymous', '')
+                  .replace(/this\.(\w+)/g, '$1.value') +
+                ');'
+            )
+            //component[actionName] = action.toString()
+            return
+          }
+
+          methods.push(
+            `${action
+              .toString()
+              .replace(/\(payload\n\)/g, '(payload)')
+              .replace('anonymous', actionName)
+              .replace(/this\.(\w+)/g, '$1.value')}`
+          )
+        })
+
+        const dataToRefArr = []
+        const data = JSON.parse(this.spell.idata || '{}')
+        Object.keys(data).forEach((key) => {
+          const value = data[key]
+
+          if (typeof value === 'object') {
+            dataToRefArr.push(`const ${key} = ref(${JSON.stringify(value, null, 2)});`)
+          }
+
+          if (typeof value === 'string') {
+            dataToRefArr.push(`const ${key} = ref("${value}");`)
+          }
+
+          if (['number', 'boolean'].includes(typeof value)) {
+            dataToRefArr.push(`const ${key} = ref(${JSON.stringify(value)});`)
+          }
+        })
+
+        if (fileName !== null) {
+          saveTextFile(
+            fileName,
+            `
+<template>
+${this.spell.tmpl.replace(/\\n/g, '\n').replace(/\\"/g, '"')}
+</template>
+
+<script setup>
+
+${dataToRefArr.join('\n')}
+
+
+${methods.join('\n')}
+
 </script>`
           )
         }

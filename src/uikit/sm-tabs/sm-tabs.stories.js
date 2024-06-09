@@ -94,7 +94,7 @@ export const Generator = {
 
     return {
       components: { SmTabs },
-      template: `<SmTabs :tabs="${JSON.stringify(argNames).replace(/"/g, "'")}" @update:tab="currentTab = $event">
+      template: `<SmTabs :tabs="tabs" @update:tab="currentTab = $event">
     ${delBtn}
     <template #default="{ nameClass, tab }">
       ${contentTabs}
@@ -102,8 +102,20 @@ export const Generator = {
   </SmTabs>
   {{ currentTab }}`,
       data: () => ({
-        currentTab: argNames[0]
+        currentTab: argNames[0],
+        tabs: argNames,
+        otehrObj: {
+          testObj: ['1', '2'],
+          t: false
+        },
+        test: true,
+        count: 100
       }),
+      mounted() {
+        if (this.currentTab !== this.tabs[0]) {
+          this.currentTab = this.tabs[0]
+        }
+      },
       methods
     }
   }
