@@ -31,6 +31,17 @@ export default {
     this.tmpl = json.tmpl
     this.actions = json.actions
     this.idata = json.idata
+
+    //     document.head.insertAdjacentHTML(
+    //       'beforeend',
+    //       `
+    // <style>
+    // [data-spell]:hover {
+    //   border: 1px solid red;
+    // }
+    // </style>
+    // `
+    //     )
   },
   template: `
     <Spell
