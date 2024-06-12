@@ -1,3 +1,5 @@
+import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree.js'
+
 import RenderJS from './render.js'
 import SpellStorybook from '../../components/spell-storybook/spell-storybook.vue'
 import './spell-theme.css'
@@ -257,7 +259,12 @@ ${methods.join('\n')}
         }
       },
       onTest(urlTest) {
-        const str = JSON.stringify(this.spell)
+        const spell = JSON.parse(JSON.stringify(this.spell))
+        spellSyntaxTree.isTest = true
+        const syntaxTree = spellSyntaxTree.parse(spell.tmpl)
+        spell.tmpl = spellSyntaxTree.stringify(syntaxTree)
+        spellSyntaxTree.isTest = false
+        const str = JSON.stringify(spell)
         const binString = String.fromCodePoint(...new TextEncoder().encode(str))
         const url = urlTest + btoa(binString)
         window.open(url)

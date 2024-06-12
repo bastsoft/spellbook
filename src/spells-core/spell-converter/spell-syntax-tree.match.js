@@ -5,7 +5,6 @@ export default {
     @click="loading = !loading"
   >
   Custom loader
-
   <template v-slot:loader>
     <VProgressLinear indeterminate></VProgressLinear>
   </template>
@@ -79,7 +78,9 @@ export default {
     ]
   },
   caseSlotDefault: {
-    tmpl: `<VBtnToggle v-model="state.toggle" variant="outlined" :divided="true"><VBtn icon="mdi-format-align-left"></VBtn></VBtnToggle>`,
+    tmpl: `<VBtnToggle v-model="state.toggle" variant="outlined" :divided="true">
+<VBtn icon="mdi-format-align-left"></VBtn>
+</VBtnToggle>`,
     syntaxTree: [
       {
         tag: 'VBtnToggle',
@@ -108,7 +109,10 @@ export default {
   },
   caseSlotDefaultWithParams: {
     tmpl: `<VBtn >
-<template #default="test"><VBtn ></VBtn></template></VBtn>`,
+<template #default="test">
+<VBtn ></VBtn>
+</template>
+</VBtn>`,
     syntaxTree: [
       {
         tag: 'VBtn',
@@ -125,9 +129,13 @@ export default {
   },
   caseTwoSlotNotDefault: {
     tmpl: `<VListItem v-for="(todo, index) in conditions.todos" :key="index" :title="todo.text" :subtitle="todo.id">
-<template #append><VBtn icon="mdi-delete" @click="action('delTodo', todo)"></VBtn></template>
-
-<template #prepend><VBtn icon="mdi-delete" @click="action('delTodo', todo)"></VBtn></template></VListItem>`,
+<template #append>
+<VBtn icon="mdi-delete" @click="action('delTodo', todo)"></VBtn>
+</template>
+<template #prepend>
+<VBtn icon="mdi-delete" @click="action('delTodo', todo)"></VBtn>
+</template>
+</VListItem>`,
     syntaxTree: [
       {
         tag: 'VListItem',
@@ -171,11 +179,21 @@ export default {
   },
   caseSlotWithParams: {
     tmpl: `<VDialog maxWidth="500">
-<template #activator="{ props: activatorProps }"><VBtn color="surface-variant" text="Open Dialog" variant="flat" v-bind="activatorProps"></VBtn></template>
-
-<template #default="{ isActive }"><VCard title="Dialog"><VCardText >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</VCardText>
-<VCardActions ><VSpacer ></VSpacer>
-<VBtn text="Close Dialog" @click="isActive.value = false"></VBtn></VCardActions></VCard></template></VDialog>`,
+<template #activator="{ props: activatorProps }">
+<VBtn color="surface-variant" text="Open Dialog" variant="flat" v-bind="activatorProps"></VBtn>
+</template>
+<template #default="{ isActive }">
+<VCard title="Dialog">
+<VCardText >
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</VCardText>
+<VCardActions >
+<VSpacer ></VSpacer>
+<VBtn text="Close Dialog" @click="isActive.value = false"></VBtn>
+</VCardActions>
+</VCard>
+</template>
+</VDialog>`,
     syntaxTree: [
       {
         tag: 'VDialog',

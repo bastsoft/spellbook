@@ -292,9 +292,9 @@ export default {
     return slots
   },
 
-  builderElements(syntaxTree) {
+  builderElements(syntaxTree, deepIndex = 0) {
     return syntaxTree
-      .map((element) => {
+      .map((element, index) => {
         if (!element.tag /*=== 'CONTENT'*/) {
           return element.args.content
         }
@@ -333,21 +333,18 @@ export default {
                 templateSlot += `="${element.slots[key].prop.replace(/"/g, "'")}"`
               }
 
-              return (
-                '\n' +
-                `<template ${templateSlot}>${this.builderElements(
-                  element.slots[key].children
-                )}</template>`
-              )
+              return `<template ${templateSlot}>
+${this.builderElements(element.slots[key].children, deepIndex + 1)}
+</template>`
             })
             .join('\n')
         } else if (elementSlots.default) {
-          slots = this.builderElements(elementSlots.default.children)
+          slots = this.builderElements(elementSlots.default.children, deepIndex + 1)
         }
 
         let tag = element.tag
 
-        return `<${tag} ${args}>${slots}</${tag}>`
+        return `<${tag} ${args}${this.isTest ? ` data-spell data-spell-index="${deepIndex}-${index}"` : ''}>${slots ? '\n' + slots + '\n' : ''}</${tag}>`
       })
       .join('\n')
   }
