@@ -6,9 +6,13 @@
       :key="tab.toString() + index"
       :class="['sm-tabs-tab', { _active: localCurrentTab === tab }]"
     >
-      <button :class="['sm-tabs-button']" v-on:click="localCurrentTab = tab.toString()">
-        {{ tab }}
-      </button>
+      <SBtn
+        :class="['sm-tabs-button']"
+        variant="text"
+        :text="tab"
+        v-on:click="localCurrentTab = tab.toString()"
+      >
+      </SBtn>
       <slot name="del" :index="index" :tab="localCurrentTab"></slot>
     </div>
   </div>
@@ -18,8 +22,13 @@
 </template>
 
 <script>
+import SBtn from '../s-btn/s-btn.vue'
+
 export default {
   name: 'SmTabs',
+  components: {
+    SBtn
+  },
   props: {
     tabs: {
       type: Array,

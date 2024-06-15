@@ -2,13 +2,13 @@
   <div class="sm-bar-prop">
     <div class="sm-bar-prop-tools">
       <button @click="unSelect" title="cнять выделение">
-        <IconUnselect />
+        <sIcon name="unselect" />
       </button>
       <button @click="onRemove" title="удалить элемент">
-        <IconRemove />
+        <sIcon name="remove" />
       </button>
       <button @click="onDuplicate" title="продублировать элемент">
-        <IconDuplicate />
+        <sIcon name="duplicate" />
       </button>
     </div>
     <SmTabs v-if="selectedElement.tag" :tabs="['args', 'slots']" @update:tab="currentTab = $event">
@@ -109,17 +109,13 @@
 
 <script>
 import SmTabs from '../../../../uikit/sm-tabs/sm-tabs.vue'
-import IconUnselect from './icon-unselect.vue'
-import IconRemove from './icon-remove.vue'
-import IconDuplicate from './icon-duplicate.vue'
+import sIcon from '../../../../uikit/s-icon/s-icon.vue'
 
 export default {
   name: 'SmBarProp',
   components: {
     SmTabs,
-    IconUnselect,
-    IconRemove,
-    IconDuplicate
+    sIcon
   },
   data: () => ({
     presetKey: null,

@@ -1,5 +1,6 @@
 <template>
   <svg
+    v-pre
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
     viewBox="0 0 24 24"
@@ -7,8 +8,6 @@
     fill="#000000"
   >
     <path d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"
-    />
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
   </svg>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <SmTabs :tabs="['HTML', 'TREE']" @update:tab="currentTab = $event">
+  <SmTabs :tabs="['TREE', 'HTML']" @update:tab="currentTab = $event">
     <template #default="{ nameClass, tab }">
       <div :class="nameClass" v-if="tab === 'HTML'">
         <button @click="onBeautify">beautify</button>

@@ -42,6 +42,13 @@ export default {
     // </style>
     // `
     //     )
+
+    const bc = new BroadcastChannel('test_channel')
+    bc.addEventListener('message', (e) => {
+      this.tmpl = e.data.tmpl
+      this.actions = e.data.actions
+      this.idata = e.data.idata
+    })
   },
   template: `
     <Spell

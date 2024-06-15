@@ -1,5 +1,5 @@
 import SpellCast from './spell-cast.vue'
-import IconWizard from './icon-wizard.vue'
+import sIcon from '../../uikit/s-icon/s-icon.vue'
 
 export default {
   title: 'components/spell-cast',
@@ -20,7 +20,7 @@ export const Default = {
   render: () => ({
     components: {
       SpellCast,
-      IconWizard
+      sIcon
     },
     template: `<SpellCast 
     style="margin: 0 20px;"
@@ -30,7 +30,7 @@ export const Default = {
     @update:model-value="onUpdateCode"
     storybookUrl="http://localhost:6006/"
     >
-      <IconWizard/>
+      <sIcon name="wizard"/>
     </SpellCast>
     {{code}}`,
     data: () => ({
