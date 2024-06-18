@@ -50,11 +50,11 @@ export default {
     },
     storyUrl: {
       type: String,
-      default: 'http://localhost:6007/'
+      default: ''
     },
     storyTestId: {
       type: String,
-      default: 'components-test--default'
+      default: ''
     }
   },
   data: () => ({
@@ -89,6 +89,11 @@ export default {
       set(value) {
         this.$emit('update:modelValue', value)
       }
+    }
+  },
+  mounted() {
+    if (this.storyUrl) {
+      this.onLoad()
     }
   },
   methods: {

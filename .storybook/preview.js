@@ -5,6 +5,8 @@ import { compile, h } from 'vue'
 import spell from '../src/spells-core/spell.js'
 
 import SmTabs from '../src/uikit/sm-tabs/sm-tabs.vue'
+import SBtn from '../src/uikit/s-btn/s-btn.vue'
+import SIcon from '../src/uikit/s-icon/s-icon.vue'
 
 setup((app) => {
   app.use({
@@ -15,7 +17,9 @@ setup((app) => {
           compile,
           h,
           components: {
-            SmTabs
+            SmTabs,
+            SBtn,
+            SIcon
           },
           ctxExt: {}
         })

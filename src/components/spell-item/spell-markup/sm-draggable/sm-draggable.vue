@@ -12,17 +12,7 @@
         <smDraggableExpand :isExpand="Boolean(Object.keys(element.slots || []).length)">
           <template #toolbar="{ isExpand, isExpanded, onClickExpanded }">
             <span class="sm-draggable-item__row">
-              <svg
-                class="sm-draggable__handle"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#000000"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-              </svg>
+              <sBtn class="sm-draggable__handle" icon="draggable"> </sBtn>
               <div
                 :class="['sm-draggable__text', { _selected: selectedId == pIndex + index }]"
                 @click="$emit('update:selectedId', this.pIndex + index)"
@@ -49,19 +39,13 @@
                   {{ 'content: ' + element.args.content }}
                 </div>
               </div>
-              <svg
+              <sBtn
                 v-if="isExpand"
                 @click="onClickExpanded"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#000000"
                 :style="`transform: rotate(${isExpanded ? 90 : 0}deg);`"
+                icon="expand"
               >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-              </svg>
+              </sBtn>
             </span>
           </template>
           <div v-for="(val, name, i) in element.slots" :key="name + i">
@@ -81,12 +65,14 @@
 <script>
 import draggable from 'vuedraggable'
 import SmDraggableExpand from './sm-draggable-expand.vue'
+import sBtn from '../../../../uikit/s-btn/s-btn.vue'
 
 export default {
   name: 'SmDraggable',
   components: {
     draggable,
-    SmDraggableExpand
+    SmDraggableExpand,
+    sBtn
   },
   props: {
     selectedId: {

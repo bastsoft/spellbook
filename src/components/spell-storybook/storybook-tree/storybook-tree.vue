@@ -5,13 +5,13 @@
       <div v-else>
         {{ key }}
       </div>
-      <button
+      <SBtn
         v-if="Object.keys(val.children).length"
         class="storybook-elems-row__expand"
         @click="onExpand(key)"
-      >
-        {{ expand[key] ? '⍌' : '⍄' }}
-      </button>
+        :style="`transform: rotate(${expand[key] ? 90 : 0}deg);`"
+        icon="expand"
+      ></SBtn>
     </div>
     <div v-show="expand[key]" class="storybook-elems__children">
       <StorybookElems :children="val.children" @select="onSelect" />
@@ -31,17 +31,13 @@
 .storybook-elems-row {
   display: flex;
 }
-
-.storybook-elems-row__expand {
-  cursor: pointer;
-  background: none;
-  border: none;
-}
 </style>
 
 <script>
+import SBtn from '../../../uikit/s-btn/s-btn.vue'
 export default {
   name: 'StorybookElems',
+  components: { SBtn },
   props: {
     children: {
       type: Object,

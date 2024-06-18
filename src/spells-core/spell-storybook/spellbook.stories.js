@@ -75,6 +75,7 @@ export const Constructor = {
       <button @click="onSaveLikeVue">save as vue</button>
       <button @click="onSaveLikeVueSetup">save as vue setup</button>
     </details>
+    <button @click="onTestRemote">onTestRemote</button>
     </div>
     
     `,
@@ -260,14 +261,27 @@ ${methods.join('\n')}
       },
       onTest(urlTest) {
         const spell = JSON.parse(JSON.stringify(this.spell))
+
         spellSyntaxTree.isTest = true
         const syntaxTree = spellSyntaxTree.parse(spell.tmpl)
         spell.tmpl = spellSyntaxTree.stringify(syntaxTree)
         spellSyntaxTree.isTest = false
+
         const str = JSON.stringify(spell)
         const binString = String.fromCodePoint(...new TextEncoder().encode(str))
         const url = urlTest + btoa(binString)
         window.open(url)
+      },
+      onTestRemote() {
+        const spell = JSON.parse(JSON.stringify(this.spell))
+
+        spellSyntaxTree.isTest = true
+        const syntaxTree = spellSyntaxTree.parse(spell.tmpl)
+        spell.tmpl = spellSyntaxTree.stringify(syntaxTree)
+        spellSyntaxTree.isTest = false
+
+        const bc = new BroadcastChannel('test_channel')
+        bc.postMessage(spell)
       }
     }
   })

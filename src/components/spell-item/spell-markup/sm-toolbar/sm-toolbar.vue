@@ -2,10 +2,10 @@
   <div class="sm-toolbar">
     <div class="sm-toolbar-default">
       <button @click="addTag" title="добавить тег">
-        <IconCode />
+        <sIcon name="code" />
       </button>
       <button @click="addContent" title="добавить содержимое">
-        <IconNotes />
+        <sIcon name="notes" />
       </button>
     </div>
     <slot name="toolbar"></slot>
@@ -20,14 +20,12 @@
 </style>
 
 <script>
-import IconCode from './icon-code.vue'
-import IconNotes from './icon-notes.vue'
+import sIcon from '../../../../uikit/s-icon/s-icon.vue'
 
 export default {
   name: 'SmToolbar',
   components: {
-    IconCode,
-    IconNotes
+    sIcon
   },
   methods: {
     addTag() {
