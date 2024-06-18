@@ -309,7 +309,7 @@ export default {
 
             let value = element.args[key]
 
-            if (value.replace) {
+            if ((value || {}).replace) {
               value = value.replace(/"/g, "'")
             }
 
