@@ -292,7 +292,7 @@ export default {
     return slots
   },
 
-  builderElements(syntaxTree, deepIndex = 0) {
+  builderElements(syntaxTree, deepIndex = '') {
     return syntaxTree
       .map((element, index) => {
         if (!element.tag /*=== 'CONTENT'*/) {
@@ -334,12 +334,12 @@ export default {
               }
 
               return `<template ${templateSlot}>
-${this.builderElements(element.slots[key].children, deepIndex + 1)}
+${this.builderElements(element.slots[key].children, deepIndex + index + '-slots-' + key + '-children')}
 </template>`
             })
             .join('\n')
         } else if (elementSlots.default) {
-          slots = this.builderElements(elementSlots.default.children, deepIndex + 1)
+          slots = this.builderElements(elementSlots.default.children, deepIndex + index)
         }
 
         let tag = element.tag

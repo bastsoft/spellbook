@@ -233,6 +233,11 @@ export default {
   methods: {
     unSelect() {
       this.index = null
+      const bc = new BroadcastChannel('test_channel')
+      bc.postMessage({
+        type: 'selected',
+        payload: ''
+      })
     },
     onRemove() {
       this.arr.splice(this.index, 1)
