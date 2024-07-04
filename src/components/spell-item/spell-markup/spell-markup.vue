@@ -85,6 +85,19 @@ export default {
     syntaxTree: [],
     currentTab: 'HTML'
   }),
+  mounted(){
+    console.log("MOUNTED!");
+    const bc = new BroadcastChannel('test_channel');
+    bc.addEventListener('message', (e) => { 
+      const m = e.data;
+
+      if(m.type === "reselected"){
+        console.log("reselected : ", m);
+        this.selectedId = m.payload;
+        this.updateSelectedId();
+      }
+    })
+  },
   computed: {
     subArrIndex: {
       get() {
@@ -121,6 +134,21 @@ export default {
       }
     },
     selectedId() {
+      this.updateSelectedId();
+    },
+    subArrIndex() {
+      if (this.subArrIndex === null) {
+        this.selectedId = null
+      }
+    }
+  },
+  methods: {
+    updateSelectedId(){
+      const bc = new BroadcastChannel('test_channel')
+      bc.postMessage({
+        type: 'selected',
+        payload: this.selectedId
+      })
       // это кастыль, надо сделать нормальную подписку на syntaxTree
       this.onStringify()
       if (this.selectedId === null) {
@@ -144,13 +172,6 @@ export default {
       this.subArrIndex = lastKey
       this.$emit('update:selectedElement', elements[lastKey])
     },
-    subArrIndex() {
-      if (this.subArrIndex === null) {
-        this.selectedId = null
-      }
-    }
-  },
-  methods: {
     onSelectPreset(selectPreset) {
       this.$emit('selectPreset', selectPreset)
     },

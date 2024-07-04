@@ -281,7 +281,10 @@ ${methods.join('\n')}
         spellSyntaxTree.isTest = false
 
         const bc = new BroadcastChannel('test_channel')
-        bc.postMessage(spell)
+        bc.postMessage({
+          type: 'rerender',
+          payload: spell
+        })
       }
     }
   })
