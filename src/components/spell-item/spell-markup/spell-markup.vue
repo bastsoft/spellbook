@@ -85,16 +85,16 @@ export default {
     syntaxTree: [],
     currentTab: 'HTML'
   }),
-  mounted(){
-    console.log("MOUNTED!");
-    const bc = new BroadcastChannel('test_channel');
-    bc.addEventListener('message', (e) => { 
-      const m = e.data;
+  mounted() {
+    console.log('MOUNTED!')
+    const bc = new BroadcastChannel('test_channel')
+    bc.addEventListener('message', (e) => {
+      const m = e.data
 
-      if(m.type === "reselected"){
-        console.log("reselected : ", m);
-        this.selectedId = m.payload;
-        this.updateSelectedId();
+      if (m.type === 'reselected') {
+        console.log('reselected : ', m)
+        this.selectedId = m.payload
+        this.updateSelectedId()
       }
     })
   },
@@ -134,7 +134,7 @@ export default {
       }
     },
     selectedId() {
-      this.updateSelectedId();
+      this.updateSelectedId()
     },
     subArrIndex() {
       if (this.subArrIndex === null) {
@@ -143,7 +143,7 @@ export default {
     }
   },
   methods: {
-    updateSelectedId(){
+    updateSelectedId() {
       const bc = new BroadcastChannel('test_channel')
       bc.postMessage({
         type: 'selected',
