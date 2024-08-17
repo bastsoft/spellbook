@@ -3,7 +3,7 @@
   "version": "0.0.20",
   "type": "module",
   "scripts": {
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 7086",
     "build-storybook": "storybook build",
