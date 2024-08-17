@@ -85,7 +85,7 @@ export const Constructor = {
         tmpl: '',
         actions: {}
       },
-      storyUrl: window.location.origin + window.location.pathname,
+      storyUrl: (window.location.origin + window.location.pathname).replace('iframe.html', ''),
       storyTestId: 'spellbook--render'
     }),
     methods: {
