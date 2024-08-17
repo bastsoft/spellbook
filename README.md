@@ -43,3 +43,7 @@ add in package.json
 ```js
 "build": "npm run build-storybook && node node_modules/my-spellbook/src/spells-core/build-postprocessing.js",
 ```
+
+# demo
+
+https://bastsoft.github.io/spellbook
