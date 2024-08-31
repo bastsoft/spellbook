@@ -12,32 +12,6 @@ add in .storybook/main.js
   	],
 ```
 
-add in .storybook/preview.js
-
-```js
-import { setup } from '@storybook/vue3'
-import { compile, h } from 'vue'
-import spell from 'my-spellbook/src/spells-core/spell.js'
-
-setup((app) => {
-  app.use({
-    install: function (vueApp, options) {
-      vueApp.component(
-        'Spell',
-        spell({
-          compile,
-          h,
-          components: {
-            // add your components to this
-          },
-          ctxExt: {}
-        })
-      )
-    }
-  })
-})
-```
-
 add in package.json
 
 ```js
