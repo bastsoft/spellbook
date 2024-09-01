@@ -8,10 +8,12 @@ function base64ToString(base64) {
 import { h } from 'vue'
 import spell from '../spell'
 
+const Spell = spell(h)
+
 export default {
   name: 'TestVue',
   components: {
-    Spell: spell(h)
+    Spell
   },
   data: () => ({
     tmpl: '',

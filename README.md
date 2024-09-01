@@ -1,4 +1,13 @@
-# spellbook
+## spell
+
+```js
+import { h } from 'vue'
+import spell from '../spell'
+
+const Spell = spell(h)
+```
+
+## spellbook
 
 to work with spellbook, your storybook must be work on _vite_
 
