@@ -5,12 +5,13 @@ function base64ToString(base64) {
   return new TextDecoder().decode(Uint8Array.from(binString, (m) => m.codePointAt(0)))
 }
 
-import Spell from '../spell'
+import { h } from 'vue'
+import spell from '../spell'
 
 export default {
   name: 'TestVue',
   components: {
-    Spell
+    Spell: spell(h)
   },
   data: () => ({
     tmpl: '',

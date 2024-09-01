@@ -1,52 +1,52 @@
-import { h } from 'vue'
+export default function (h) {
+  const lifecycleHooks = [
+    'beforeCreate',
+    'created',
+    'beforeMount',
+    'mounted',
+    'beforeUpdate',
+    'updated',
+    'activated',
+    'deactivated',
+    'beforeUnmount',
+    'unmounted'
+  ]
 
-const lifecycleHooks = [
-  'beforeCreate',
-  'created',
-  'beforeMount',
-  'mounted',
-  'beforeUpdate',
-  'updated',
-  'activated',
-  'deactivated',
-  'beforeUnmount',
-  'unmounted'
-]
-
-export default {
-  name: 'Spell',
-  props: {
-    tmpl: {
-      type: String,
-      default: () => ''
+  return {
+    name: 'Spell',
+    props: {
+      tmpl: {
+        type: String,
+        default: () => ''
+      },
+      actions: {
+        type: Object,
+        default: () => {}
+      },
+      idata: {
+        type: String,
+        default: () => '{ "state": {} }'
+      }
     },
-    actions: {
-      type: Object,
-      default: () => {}
-    },
-    idata: {
-      type: String,
-      default: () => '{ "state": {} }'
-    }
-  },
-  render() {
-    const component = {
-      data: () => new Function(['payload'], ' return ' + this.idata || '{ "state": {} }')(),
-      methods: {},
-      template: this.tmpl
-    }
-
-    Object.keys(this.actions || {}).forEach((actionName) => {
-      const action = new Function(['payload'], this.actions[actionName])
-
-      if (lifecycleHooks.includes(actionName)) {
-        component[actionName] = action
-        return
+    render() {
+      const component = {
+        data: () => new Function(['payload'], ' return ' + this.idata || '{ "state": {} }')(),
+        methods: {},
+        template: this.tmpl
       }
 
-      component.methods[actionName] = action
-    })
+      Object.keys(this.actions || {}).forEach((actionName) => {
+        const action = new Function(['payload'], this.actions[actionName])
 
-    return h(component)
+        if (lifecycleHooks.includes(actionName)) {
+          component[actionName] = action
+          return
+        }
+
+        component.methods[actionName] = action
+      })
+
+      return h(component)
+    }
   }
 }
