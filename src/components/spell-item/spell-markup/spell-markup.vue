@@ -181,13 +181,13 @@ export default {
       this.subArr.push(element)
       this.onChange()
     },
-    onSelectValueTree(value){
+    onSelectValueTree(value) {
       this.onAddTag({
         tag: value.title.split('/').pop(),
         argsBinded: [],
         args: {},
         slots: {}
-      });
+      })
     },
     onBeautify() {
       this.tmplHtml = beautify.html(this.tmplHtml)

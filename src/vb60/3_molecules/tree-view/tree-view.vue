@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "TreeView",
+  name: 'TreeView',
   props: {
     children: {
       name: String
@@ -31,13 +31,13 @@ export default {
       this.$emit('select', value)
     }
   }
-};
+}
 </script>
 
 <style>
 .tree-view {
   background: #fff;
-  font-family: "Pixelated MS Sans Serif",Arial;
+  font-family: 'Pixelated MS Sans Serif', Arial;
   font-size: 11px;
   color: #222;
   margin: 0;
@@ -64,7 +64,7 @@ export default {
 .tree-view ul > li::before {
   position: absolute;
   border-bottom: 1px dotted grey;
-  content: "";
+  content: '';
   display: block;
   left: -16px;
   top: 6px;
@@ -74,7 +74,7 @@ export default {
 .tree-view ul > li:last-child::after {
   background: #fff;
   bottom: 0;
-  content: "";
+  content: '';
   display: block;
   left: -20px;
   position: absolute;
@@ -87,13 +87,13 @@ export default {
   cursor: pointer;
   display: inline;
   white-space: nowrap;
-  display: inline-flex
+  display: inline-flex;
 }
 
 .tree-view details > summary::before {
   background-color: #fff;
   border: 1px solid grey;
-  content: "+";
+  content: '+';
   display: block;
   float: left;
   height: 9px;
@@ -105,11 +105,11 @@ export default {
 }
 
 .tree-view details[open] > summary::before {
-  content: "-";
+  content: '-';
 }
 
 .tree-view button {
-  font-family: "Pixelated MS Sans Serif",Arial;
+  font-family: 'Pixelated MS Sans Serif', Arial;
   font-size: 11px;
   color: #222;
   border: none;
@@ -118,6 +118,4 @@ export default {
   margin: 0;
   cursor: pointer;
 }
-
-
 </style>

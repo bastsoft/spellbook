@@ -96,7 +96,7 @@
       style="height: 80%; width: 100%"
     ></textarea>
     <label v-if="presets.length">
-      presets: <SelectVB6 v-model="presetKey" :options="presets"/>
+      presets: <SelectVB6 v-model="presetKey" :options="presets" />
       <button @click="onSetPreset">+</button>
     </label>
   </div>
