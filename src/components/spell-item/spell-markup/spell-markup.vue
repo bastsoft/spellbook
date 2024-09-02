@@ -9,7 +9,7 @@
         <div style="display: flex">
           <SmToolbar @add="onAddTag">
             <template #toolbar>
-              <slot name="toolbar" :onAddTag="onAddTag"> </slot>
+              <slot name="toolbar" :onSelectValueTree="onSelectValueTree"> </slot>
             </template>
           </SmToolbar>
           <SmDraggable
@@ -180,6 +180,14 @@ export default {
       // subArrIndex: null, //добавление элементов
       this.subArr.push(element)
       this.onChange()
+    },
+    onSelectValueTree(value){
+      this.onAddTag({
+        tag: value.title.split('/').pop(),
+        argsBinded: [],
+        args: {},
+        slots: {}
+      });
     },
     onBeautify() {
       this.tmplHtml = beautify.html(this.tmplHtml)

@@ -15,8 +15,8 @@
     :slotTypes="slotTypes"
     :presets="Object.keys(presets)"
   >
-    <template #toolbar="{ onAddTag }">
-      <StorybookTree :children="(entriesTree || {}).children || {}" @add="onAddTag" />
+    <template #toolbar="{ onSelectValueTree }">
+      <TreeView :children="(entriesTree || {}).children || {}" @select="onSelectValueTree" />
     </template>
   </SpellItem>
   <details>
@@ -31,7 +31,8 @@
 
 <script>
 import SpellItem from '../spell-item/spell-item.vue'
-import StorybookTree from './storybook-tree/storybook-tree.vue'
+// import StorybookTree from './storybook-tree/storybook-tree.vue'
+import TreeView from '../../vb60/3_molecules/tree-view/tree-view.vue'
 import StorybookRemoute from '../../spells-core/storybook-remoute.js'
 import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree.js'
 
@@ -41,7 +42,7 @@ export default {
   name: 'SpellStorybook',
   components: {
     SpellItem,
-    StorybookTree
+    TreeView
   },
   props: {
     modelValue: {

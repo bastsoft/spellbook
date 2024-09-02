@@ -96,12 +96,7 @@
       style="height: 80%; width: 100%"
     ></textarea>
     <label v-if="presets.length">
-      presets:
-      <select v-model="presetKey">
-        <option v-for="(key, index) in presets" :key="key + ' ' + index">
-          {{ key }}
-        </option>
-      </select>
+      presets: <SelectVB6 v-model="presetKey" :options="presets"/>
       <button @click="onSetPreset">+</button>
     </label>
   </div>
@@ -110,12 +105,14 @@
 <script>
 import SmTabs from '../../../../uikit/sm-tabs/sm-tabs.vue'
 import sIcon from '../../../../uikit/s-icon/s-icon.vue'
+import SelectVB6 from '../../../../vb60/2_atoms/select/select-vb6.vue'
 
 export default {
   name: 'SmBarProp',
   components: {
     SmTabs,
-    sIcon
+    sIcon,
+    SelectVB6
   },
   data: () => ({
     presetKey: null,
