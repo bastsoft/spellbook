@@ -1,9 +1,18 @@
 <template>
-  <label>
-    url storybook
-    <input v-model="url" />
-  </label>
-  <button @click="onLoad">load</button>
+  <div v-if="0">
+    <label>
+      url storybook
+      <input v-model="url" />
+    </label>
+    
+    <button @click="onLoad">load</button>
+  </div>
+  
+  <div style="display: flex; gap: 10px; margin: 20px 10px;">
+    <ButtonVb6 @click="goTest">run test</ButtonVb6>
+    <slot></slot>
+  </div>
+
   <SpellItem
     ref="SpellItem"
     v-model="spell"
@@ -19,7 +28,8 @@
       <TreeView :children="(entriesTree || {}).children || {}" @select="onSelectValueTree" />
     </template>
   </SpellItem>
-  <details>
+  
+  <details v-if="0">
     <summary>test</summary>
     <label>
       id-story-test
@@ -35,6 +45,7 @@ import SpellItem from '../spell-item/spell-item.vue'
 import TreeView from '../../vb60/3_molecules/tree-view/tree-view.vue'
 import StorybookRemoute from '../../spells-core/storybook-remoute.js'
 import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree.js'
+import ButtonVb6 from '../../vb60/2_atoms/button/button-vb6.vue'
 
 let storybookRemoute = new StorybookRemoute()
 
@@ -42,7 +53,8 @@ export default {
   name: 'SpellStorybook',
   components: {
     SpellItem,
-    TreeView
+    TreeView,
+    ButtonVb6
   },
   props: {
     modelValue: {

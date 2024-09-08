@@ -14,9 +14,11 @@
       <slot name="toolbar" v-bind="vbind"> </slot>
     </template>
   </SpellMarkup>
-  <details>
+  <details open>
     <summary>idata</summary>
-    <SmPrism v-model="spell.idata" />
+    <div style="display: flex; padding: 10px;">
+      <SmPrism v-model="spell.idata" />
+    </div>
   </details>
   <SpellItemActions v-model="spell.actions" />
 </template>

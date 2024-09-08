@@ -14,7 +14,7 @@
     <SmTabs v-if="selectedElement.tag" :tabs="['args', 'slots']" @update:tab="currentTab = $event">
       <template #default="{ nameClass, tab }">
         <div :class="nameClass" v-if="tab === 'slots'">
-          <label>
+          <LabelVb6>
             <input v-model="slotTypeValue" type="text" list="slotTypes" />
             <datalist id="slotTypes">
               <optgroup label="default">
@@ -24,7 +24,7 @@
               </optgroup>
             </datalist>
             <button @click="onAddSlot" title="добавить слот">+</button>
-          </label>
+          </LabelVb6>
           <label
             class="sm-bar-prop-item"
             v-for="(value, name, index) in selectedElement.slots"
@@ -48,7 +48,7 @@
           </label>
         </div>
         <div :class="nameClass" v-if="tab === 'args'">
-          <label>
+          <LabelVb6>
             <input v-model="argTypeValue" type="text" list="argTypes" />
             <datalist id="argTypes">
               <optgroup label="default">
@@ -58,7 +58,7 @@
               </optgroup>
             </datalist>
             <button @click="onAddArg" title="добавить аргумент">+</button>
-          </label>
+          </LabelVb6>
           <label
             class="sm-bar-prop-item"
             v-for="(key, i) in argKeys || []"
@@ -95,10 +95,10 @@
       v-model="selectedElement.args.content"
       style="height: 80%; width: 100%"
     ></textarea>
-    <label v-if="presets.length">
-      presets: <SelectVB6 v-model="presetKey" :options="presets" />
+    <LabelVb6 v-if="presets.length" caption="presets">
+      <SelectVB6 v-model="presetKey" :options="presets" />
       <button @click="onSetPreset">+</button>
-    </label>
+    </LabelVb6>
   </div>
 </template>
 
@@ -106,13 +106,15 @@
 import SmTabs from '../../../../uikit/sm-tabs/sm-tabs.vue'
 import sIcon from '../../../../uikit/s-icon/s-icon.vue'
 import SelectVB6 from '../../../../vb60/2_atoms/select/select-vb6.vue'
+import LabelVb6 from  '../../../../vb60/2_atoms/label/label-vb6.vue';
 
 export default {
   name: 'SmBarProp',
   components: {
     SmTabs,
     sIcon,
-    SelectVB6
+    SelectVB6,
+    LabelVb6
   },
   data: () => ({
     presetKey: null,

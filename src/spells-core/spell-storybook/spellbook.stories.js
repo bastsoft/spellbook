@@ -2,6 +2,7 @@ import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree
 
 import RenderJS from './render.js'
 import SpellStorybook from '../../components/spell-storybook/spell-storybook.vue'
+import ButtonVb6 from '../../vb60/2_atoms/button/button-vb6.vue'
 import './spell-theme.css'
 export default {
   title: 'spellbook'
@@ -66,20 +67,18 @@ export const Constructor = {
       v-model:storyUrl="storyUrl"
       v-model:storyTestId="storyTestId"
       @test="onTest"
-    />
-    <details>
-      <summary>save/load</summary>
-      <button @click="onSave">save</button>
-      <button @click="onLoad">load</button>
-      <button @click="onSaveLikeJs">save as js</button>
-      <button @click="onSaveLikeVue">save as vue</button>
-      <button @click="onSaveLikeVueSetup">save as vue setup</button>
-    </details>
-    <button @click="onTestRemote">onTestRemote</button>
+    >
+      <ButtonVb6 @click="onSave">save</ButtonVb6>
+      <ButtonVb6 @click="onLoad">load</ButtonVb6>
+      <ButtonVb6 @click="onSaveLikeJs">save as js</ButtonVb6>
+      <ButtonVb6 @click="onSaveLikeVue">save as vue</ButtonVb6>
+      <ButtonVb6 @click="onSaveLikeVueSetup">save as vue setup</ButtonVb6>
+    </SpellStorybook>
+    <button v-if="0" @click="onTestRemote">onTestRemote</button>
     </div>
     
     `,
-    components: { SpellStorybook },
+    components: { SpellStorybook, ButtonVb6 },
     data: () => ({
       spell: {
         tmpl: '',

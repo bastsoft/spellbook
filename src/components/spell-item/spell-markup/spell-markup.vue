@@ -2,7 +2,7 @@
   <SmTabs :tabs="['TREE', 'HTML']" @update:tab="currentTab = $event">
     <template #default="{ nameClass, tab }">
       <div :class="nameClass" v-if="tab === 'HTML'">
-        <button @click="onBeautify">beautify</button>
+        <button v-if="0" @click="onBeautify">beautify</button>
         <SmHtml v-model="tmplHtml" />
       </div>
       <div :class="nameClass" v-if="tab === 'TREE'">
