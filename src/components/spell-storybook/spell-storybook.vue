@@ -4,11 +4,11 @@
       url storybook
       <input v-model="url" />
     </label>
-    
+
     <button @click="onLoad">load</button>
   </div>
-  
-  <div style="display: flex; gap: 10px; margin: 20px 10px;">
+
+  <div style="display: flex; gap: 10px; margin: 20px 10px">
     <ButtonVb6 @click="goTest">run test</ButtonVb6>
     <slot></slot>
   </div>
@@ -28,7 +28,7 @@
       <TreeView :children="(entriesTree || {}).children || {}" @select="onSelectValueTree" />
     </template>
   </SpellItem>
-  
+
   <details v-if="0">
     <summary>test</summary>
     <label>

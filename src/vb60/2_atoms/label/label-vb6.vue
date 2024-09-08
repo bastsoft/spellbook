@@ -17,8 +17,8 @@ export default {
 </script>
 
 <style>
-.label-vb6__caption{
-  font-family: "Pixelated MS Sans Serif",Arial;
+.label-vb6__caption {
+  font-family: 'Pixelated MS Sans Serif', Arial;
   font-size: 11px;
 }
 

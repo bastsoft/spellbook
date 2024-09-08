@@ -106,7 +106,7 @@
 import SmTabs from '../../../../uikit/sm-tabs/sm-tabs.vue'
 import sIcon from '../../../../uikit/s-icon/s-icon.vue'
 import SelectVB6 from '../../../../vb60/2_atoms/select/select-vb6.vue'
-import LabelVb6 from  '../../../../vb60/2_atoms/label/label-vb6.vue';
+import LabelVb6 from '../../../../vb60/2_atoms/label/label-vb6.vue'
 
 export default {
   name: 'SmBarProp',

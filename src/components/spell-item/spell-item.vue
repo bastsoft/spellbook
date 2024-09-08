@@ -16,7 +16,7 @@
   </SpellMarkup>
   <details open>
     <summary>idata</summary>
-    <div style="display: flex; padding: 10px;">
+    <div style="display: flex; padding: 10px">
       <SmPrism v-model="spell.idata" />
     </div>
   </details>
