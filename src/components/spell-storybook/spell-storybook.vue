@@ -1,5 +1,5 @@
 <template>
-  <div v-if="0">
+  <div v-if="1">
     <label>
       url storybook
       <input v-model="url" />
@@ -145,6 +145,9 @@ export default {
 
             return acc
           }, {})
+        }).catch(() => {
+          console.error('ошибка загрузки пробуем еще раз');
+          this.onSelectedElement(elem);
         })
       }
     },
@@ -192,6 +195,10 @@ export default {
 
         if (renderObj.data && typeof renderObj.data === 'function') {
           data = JSON.stringify(renderObj.data())
+        }
+
+        if (renderObj.data && typeof renderObj.data === 'object') {
+          data = JSON.stringify(renderObj.data)
         }
 
         if (renderObj.methods && Object.keys(renderObj.methods).length) {
