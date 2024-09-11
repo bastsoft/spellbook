@@ -128,27 +128,30 @@ export default {
       })
 
       if (importPath) {
-        storybookRemoute.importFn(importPath).then((res) => {
-          const tag = res.default.title.split('/').pop()
-          this.argTypes = res.default.argTypes
-          this.slotTypes = (res.default.parameters || {}).slots
-          const presetKeys = Object.keys(res).filter(
-            (i) => !['default', '__namedExportsOrder'].includes(i)
-          )
-          this.presets = presetKeys.reduce((acc, key) => {
-            acc[key] = {
-              tag,
-              render: res[key].render,
-              args: res[key].args || {},
-              argTypes: res[key].argTypes
-            }
+        storybookRemoute
+          .importFn(importPath)
+          .then((res) => {
+            const tag = res.default.title.split('/').pop()
+            this.argTypes = res.default.argTypes
+            this.slotTypes = (res.default.parameters || {}).slots
+            const presetKeys = Object.keys(res).filter(
+              (i) => !['default', '__namedExportsOrder'].includes(i)
+            )
+            this.presets = presetKeys.reduce((acc, key) => {
+              acc[key] = {
+                tag,
+                render: res[key].render,
+                args: res[key].args || {},
+                argTypes: res[key].argTypes
+              }
 
-            return acc
-          }, {})
-        }).catch(() => {
-          console.error('ошибка загрузки пробуем еще раз');
-          this.onSelectedElement(elem);
-        })
+              return acc
+            }, {})
+          })
+          .catch(() => {
+            console.error('ошибка загрузки пробуем еще раз')
+            this.onSelectedElement(elem)
+          })
       }
     },
     onSelectPreset(key) {
