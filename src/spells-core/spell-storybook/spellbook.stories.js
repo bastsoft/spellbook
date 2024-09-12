@@ -1,6 +1,7 @@
 import spellSyntaxTree from '../../spells-core/spell-converter/spell-syntax-tree.js'
 
 import RenderJS from './render.js'
+import RenderSyncJS from './rendersync.js'
 import SpellStorybook from '../../components/spell-storybook/spell-storybook.vue'
 import ButtonVb6 from '../../vb60/2_atoms/button/button-vb6.vue'
 import './spell-theme.css'
@@ -68,13 +69,14 @@ export const Constructor = {
       v-model:storyTestId="storyTestId"
       @test="onTest"
     >
+      <ButtonVb6 @click="onTestRemote">test</ButtonVb6>
       <ButtonVb6 @click="onSave">save</ButtonVb6>
       <ButtonVb6 @click="onLoad">load</ButtonVb6>
       <ButtonVb6 @click="onSaveLikeJs">save as js</ButtonVb6>
       <ButtonVb6 @click="onSaveLikeVue">save as vue</ButtonVb6>
       <ButtonVb6 @click="onSaveLikeVueSetup">save as vue setup</ButtonVb6>
     </SpellStorybook>
-    <button v-if="0" @click="onTestRemote">onTestRemote</button>
+    
     </div>
     
     `,
@@ -269,9 +271,12 @@ ${methods.join('\n')}
         const str = JSON.stringify(spell)
         const binString = String.fromCodePoint(...new TextEncoder().encode(str))
         const url = urlTest + btoa(binString)
-        window.open(url)
+        window.open(url, 'spelltestbase64')
       },
       onTestRemote() {
+        const url = `${this.storyUrl}iframe.html??args=&id=spellbook--render-sync&viewMode=story`
+        //http://localhost:7086/iframe.html?args=&id=spellbook--render-sync&viewMode=story
+
         const spell = JSON.parse(JSON.stringify(this.spell))
 
         spellSyntaxTree.isTest = true
@@ -280,10 +285,18 @@ ${methods.join('\n')}
         spellSyntaxTree.isTest = false
 
         const bc = new BroadcastChannel('test_channel')
-        bc.postMessage({
-          type: 'rerender',
-          payload: spell
+        bc.addEventListener('message', (e) => {
+          const m = e.data
+          console.log(m.type)
+          if (m.type === 'init') {
+            bc.postMessage({
+              type: 'rerender',
+              payload: spell
+            })
+          }
         })
+
+        window.open(url, 'spelltest')
       }
     }
   })
@@ -305,5 +318,15 @@ export const Render = {
   render: () => ({
     components: { RenderJS },
     template: '<RenderJS/>'
+  })
+}
+
+export const RenderSync = {
+  parameters: {
+    layout: 'fullscreen'
+  },
+  render: () => ({
+    components: { RenderSyncJS },
+    template: '<RenderSyncJS/>'
   })
 }

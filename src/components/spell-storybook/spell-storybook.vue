@@ -1,5 +1,5 @@
 <template>
-  <div v-if="1">
+  <div v-if="0">
     <label>
       url storybook
       <input v-model="url" />
@@ -9,7 +9,7 @@
   </div>
 
   <div style="display: flex; gap: 10px; margin: 20px 10px">
-    <ButtonVb6 @click="goTest">run test</ButtonVb6>
+    <ButtonVb6 @click="goTestBase64">base64</ButtonVb6>
     <slot></slot>
   </div>
 
@@ -34,7 +34,7 @@
     <label>
       id-story-test
       <input v-model="testId" />
-      <button @click="goTest">test</button>
+      <button @click="goTestBase64">test</button>
     </label>
   </details>
 </template>
@@ -262,10 +262,10 @@ export default {
 
       this.$refs.SpellItem.onChange()
     },
-    goTest() {
+    goTestBase64() {
       //let isDev = process.env.NODE_ENV === 'development'
       let iframe = 'iframe.html' //isDev ? 'iframe.html' : 'iframe'
-
+      // storyTestId = spellbook--render
       const url = `${this.url}${iframe}?id=${this.storyTestId}&viewMode=story&args=base64:`
       this.$emit('test', url)
     }
